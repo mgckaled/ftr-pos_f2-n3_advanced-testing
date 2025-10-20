@@ -1,0 +1,78 @@
+# =========================================================
+# Node.js / PNPM / Windows - .gitignore
+# Projeto: JavaScript com Mocha, Chai e Sinon
+# =========================================================
+
+# ======================
+# Dependências
+# ======================
+node_modules/
+.pnpm-store/
+.pnpm-debug.log
+
+# ======================
+# Logs e debug
+# ======================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+debug.log
+*.log
+
+# ======================
+# Build e cobertura de testes
+# ======================
+dist/
+build/
+coverage/
+.nyc_output/
+reports/
+.tmp/
+.cache/
+
+# ======================
+# Configurações locais
+# ======================
+.env
+.env.local
+.env.test
+.env.production
+
+# ======================
+# Arquivos temporários
+# ======================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ======================
+# Editor e IDEs
+# ======================
+.vscode/
+.idea/
+*.code-workspace
+
+# ======================
+# Testes (Mocha / Chai / Sinon)
+# ======================
+# Arquivos gerados por testes, mocks, snapshots
+test-results.xml
+junit.xml
+mochawesome-report/
+mochawesome.json
+*.mocha.js
+*.test.js.map
+*.spec.js.map
+
+# ======================
+# Sistema Operacional (Windows)
+# ======================
+ehthumbs.db
+$RECYCLE.BIN/
+*.lnk
