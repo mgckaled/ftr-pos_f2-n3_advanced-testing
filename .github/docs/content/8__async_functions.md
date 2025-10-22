@@ -15,8 +15,8 @@
   - [Testando Operações em Paralelo vs Sequenciais](#testando-operações-em-paralelo-vs-sequenciais)
   - [Boas Práticas e Conclusão](#boas-práticas-e-conclusão)
     - [Principais Recomendações](#principais-recomendações)
-    - [Benefícios dos Testes em Funções Assíncronas](#benefícios-dos-testes-em-funções-assíncronas)
-    - [Armadilhas Comuns e Como Evitá-las](#armadilhas-comuns-e-como-evitá-las)
+  - [Benefícios dos Testes em Funções Assíncronas](#benefícios-dos-testes-em-funções-assíncronas)
+  - [Armadilhas Comuns e Como Evitá-las](#armadilhas-comuns-e-como-evitá-las)
     - [Estratégias Avançadas para Testes Mais Robustos](#estratégias-avançadas-para-testes-mais-robustos)
     - [O Papel dos Testes no Ciclo de Desenvolvimento](#o-papel-dos-testes-no-ciclo-de-desenvolvimento)
     - [Mantendo Testes Sustentáveis ao Longo do Tempo](#mantendo-testes-sustentáveis-ao-longo-do-tempo)
@@ -1462,7 +1462,7 @@ describe('OrderProcessingService', () => {
 
 7. **Limpe recursos após cada teste**: Use `afterEach()` para restaurar stubs, fechar conexões e limpar timers falsos.
 
-### Benefícios dos Testes em Funções Assíncronas
+## Benefícios dos Testes em Funções Assíncronas
 
 Implementar testes robustos para código assíncrono traz benefícios significativos e tangíveis para qualquer projeto de software. Em primeiro lugar, você ganha confiança de que suas integrações com serviços externos funcionam corretamente, mesmo em cenários adversos. Quando você testa não apenas o caminho feliz, mas também situações de timeout, falhas de rede e respostas inesperadas, está construindo uma aplicação verdadeiramente resiliente.
 
@@ -1472,7 +1472,7 @@ Quando você precisa refatorar código assíncrono complexo, talvez para melhora
 
 Outro benefício importante é a detecção precoce de problemas de concorrência e condições de corrida. Esses bugs são notoriamente difíceis de reproduzir e debugar em produção, mas com testes bem estruturados, você pode capturá-los durante o desenvolvimento. Por exemplo, ao testar operações paralelas, você pode verificar se o código realmente está executando requisições simultaneamente e não sequencialmente por engano, o que poderia causar problemas graves de performance em produção.
 
-### Armadilhas Comuns e Como Evitá-las
+## Armadilhas Comuns e Como Evitá-las
 
 Durante o desenvolvimento de testes assíncronos, existem alguns erros frequentes que podem causar frustração e perda de tempo. Um dos mais comuns é esquecer de retornar a Promise ou chamar `done()` em um teste. Quando isso acontece, o Mocha considera o teste concluído imediatamente, antes da operação assíncrona terminar. O teste passa mesmo quando deveria falhar, criando uma falsa sensação de segurança. Sempre certifique-se de que seus testes assíncronos explicitamente informam ao framework quando a operação termina.
 

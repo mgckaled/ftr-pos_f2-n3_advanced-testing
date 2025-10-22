@@ -2,7 +2,7 @@
 <!-- markdownlint-disable MD041 -->
 
 <p align="center">
-  <img alt="Logo - Rocketseat" src="./.github/assets/logo/logo_ftr.png" width="200px" />
+  <img alt="Logo - Rocketseat" src="./.github/assets/logo_ftr.png" width="200px" />
 </p>
 
 # Testes Avançados
@@ -18,7 +18,7 @@ Repositório pessoal de registro, referência e suporte para fins de aprendizado
 >[!NOTE]
 > [Questionário Avaliativo](./.github/docs/assessments/q.md)
 >
-> [Glossário / Terminologia](./.github/docs/content/1_terminology.md)
+> [Glossário / Terminologia](./.github/docs/content/0__terminology.md)
 >
 > [Guia de Estudos](./.github/docs/content/_index.md)
 

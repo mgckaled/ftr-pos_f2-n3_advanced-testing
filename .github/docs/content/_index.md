@@ -1,89 +1,131 @@
 # Guia de Estudos - Testes Avançados
 
+> [Voltar](../../../README.md) ao README.md
+
 ## Índice
 
 - [Guia de Estudos - Testes Avançados](#guia-de-estudos---testes-avançados)
   - [Índice](#índice)
   - [Glossário / Terminologia](#glossário--terminologia)
-  - [1. Tipos de Testes](#1-tipos-de-testes)
-  - [2. Frameworks para Testes](#2-frameworks-para-testes)
-  - [3. Organização de Diretório e Arquivos](#3-organização-de-diretório-e-arquivos)
-  - [4. Chai e Sinon para Testes com Mocha](#4-chai-e-sinon-para-testes-com-mocha)
-  - [5. Testes para Arquitetura DDD](#5-testes-para-arquitetura-ddd)
-  - [6. Cobertura de Testes com c8](#6-cobertura-de-testes-com-c8)
-  - [7. CI/CD com Github Actions](#7-cicd-com-github-actions)
-  - [8. Testcontainers](#8-testcontainers)
-  - [9. Testes de Integração](#9-testes-de-integração)
-  - [10. Testes com foco em Design Patters (mais usados em DDD)](#10-testes-com-foco-em-design-patters-mais-usados-em-ddd)
+  - [1. Níveis de Testes - Fundação conceitual](#1-níveis-de-testes---fundação-conceitual)
+  - [2. Frameworks de Testes - Panorama de ferramentas](#2-frameworks-de-testes---panorama-de-ferramentas)
+  - [3. Organização de Diretório e Arquivos - Estrutura prática](#3-organização-de-diretório-e-arquivos---estrutura-prática)
+  - [4. Chai e Sinon para Testes com Mocha - Domínio das ferramentas](#4-chai-e-sinon-para-testes-com-mocha---domínio-das-ferramentas)
+  - [Testes Unitários - Aplicação no nível mais granular](#testes-unitários---aplicação-no-nível-mais-granular)
+  - [6. Testes de Integração - Aplicação no nível intermediário](#6-testes-de-integração---aplicação-no-nível-intermediário)
+  - [7. Testes E2E - Aplicação no nível mais amplo](#7-testes-e2e---aplicação-no-nível-mais-amplo)
+  - [8. Testes Assíncronos - Caso especial transversal](#8-testes-assíncronos---caso-especial-transversal)
+  - [9. Cobertura de Testes com c8 - Medição de qualidade](#9-cobertura-de-testes-com-c8---medição-de-qualidade)
+  - [10. Testes para Arquitetura DDD - Contexto arquitetural específico](#10-testes-para-arquitetura-ddd---contexto-arquitetural-específico)
+  - [11. Design Patterns em DDD - Padrões e suas estratégias de teste](#11-design-patterns-em-ddd---padrões-e-suas-estratégias-de-teste)
+  - [12. CI/CD com Github Actions - Automação de Testes do Pipeline](#12-cicd-com-github-actions---automação-de-testes-do-pipeline)
+  - [13. Testcontainers - Infraestrutura para testes de integração](#13-testcontainers---infraestrutura-para-testes-de-integração)
 
 ## Glossário / Terminologia
 
 1 parágrafo
 
-- [Glossário]
+- [Glossário](./0__terminology.md)
 
-## 1. Tipos de Testes
+## 1. Níveis de Testes - Fundação conceitual
+
+Os testes automatizados representam a espinha dorsal da qualidade no desenvolvimento de software moderno, funcionando como uma rede de segurança que nos permite evoluir aplicações com confiança. Eles se organizam em uma hierarquia conhecida como pirâmide de testes, onde a base larga é composta por numerosos testes unitários que verificam funções e classes isoladamente de forma rápida e barata. No meio da pirâmide encontramos os testes de integração, que avaliam como diferentes módulos trabalham juntos, incluindo interações com bancos de dados e APIs externas. No topo, em menor quantidade devido ao custo computacional, estão os testes end-to-end que simulam o comportamento real do usuário através de toda a aplicação, desde o login até a conclusão de operações complexas como finalizar uma compra.
+
+Além dessa estrutura fundamental, existem categorias especializadas que atendem necessidades específicas do desenvolvimento profissional. Os testes de performance verificam se o sistema mantém tempos de resposta aceitáveis sob diferentes cargas de usuários, enquanto os testes de segurança procuram vulnerabilidades como injeção SQL e ataques XSS que poderiam comprometer dados sensíveis. Os testes de acessibilidade garantem que a aplicação seja utilizável por pessoas com diferentes necessidades, e os testes de regressão visual detectam mudanças não intencionais na interface. Quando bem implementados seguindo práticas como independência entre testes, nomes descritivos e cobertura de casos extremos, esses diferentes tipos de testes trabalham em conjunto para criar um ecossistema robusto que reduz drasticamente a probabilidade de bugs chegarem à produção e permite que equipes modifiquem código legado com segurança.
+
+- [Níveis de Testes](./1__test_levels.md)
+
+## 2. Frameworks de Testes - Panorama de ferramentas
+
+Os frameworks de testes representam uma das evoluções mais significativas no desenvolvimento de software das últimas décadas, transformando a forma como construímos e mantemos aplicações confiáveis. No ecossistema JavaScript e TypeScript, essa evolução se manifesta de maneira particularmente interessante através de ferramentas como Jest, Vitest, Mocha, Jasmine e Playwright, cada uma refletindo diferentes filosofias e momentos do desenvolvimento web. Jest, criado pelo Facebook, emergiu como resposta à necessidade de testar aplicações React de forma mais simples e integrada, oferecendo uma solução completa que elimina a fadiga de decisões sobre qual biblioteca de assertions usar ou como configurar mocking. Por outro lado, Mocha representa a filosofia Unix de fazer uma coisa bem feita, permitindo que desenvolvedores componham seu próprio stack de testes escolhendo ferramentas especializadas como Chai para assertions e Sinon para mocking. O mais recente Vitest surge como uma resposta moderna aos desafios de performance, aproveitando o ESM nativo e as transformações do Vite para oferecer feedback quase instantâneo durante o desenvolvimento. Essa diversidade não é acidental, mas reflete diferentes valores na comunidade: alguns priorizam conveniência e produtividade imediata, enquanto outros valorizam controle granular e flexibilidade arquitetural. Compreender essas diferenças fundamentais ajuda equipes a fazer escolhas alinhadas com suas necessidades específicas, cultura de desenvolvimento e requisitos técnicos.
+
+A escolha de um framework de testes vai muito além de preferências pessoais ou popularidade no momento, exigindo uma análise cuidadosa do contexto técnico e organizacional do projeto. Quando você trabalha com uma aplicação React moderna que utiliza Vite como bundler, Vitest se torna uma escolha natural pela integração perfeita e velocidade excepcional, permitindo que desenvolvedores vejam resultados de testes atualizarem em tempo real enquanto codificam através do Hot Module Replacement. Projetos Node.js complexos com requisitos específicos de configuração podem se beneficiar enormemente da flexibilidade do Mocha, onde você pode escolher exatamente quais ferramentas usar em cada camada do teste, desde a execução até o reporting personalizado. Jest brilha em cenários onde a produtividade da equipe é prioritária e você quer minimizar decisões de configuração, oferecendo uma experiência consistente e bem documentada que novos membros podem aprender rapidamente. Para testes end-to-end, Playwright se estabeleceu como o padrão de facto ao resolver problemas históricos de automação de navegadores, como flakiness e inconsistências entre diferentes browsers, através de auto-waiting inteligente e execução paralela confiável. A chave está em reconhecer que cada framework foi otimizado para resolver problemas específicos, e a melhor escolha emerge naturalmente quando você identifica claramente quais são seus desafios mais críticos.
+
+O impacto real dos frameworks de testes se manifesta na capacidade de uma equipe manter e evoluir software com confiança ao longo do tempo, transformando a cultura de desenvolvimento de reativa para proativa. Quando você tem uma suite de testes bem estruturada usando qualquer desses frameworks, refatorações que antes seriam arriscadas se tornam seguras e até encorajadas, permitindo que o código evolua para acompanhar mudanças de requisitos sem acumular dívida técnica. Os exemplos práticos apresentados neste guia demonstram como testes bem escritos servem também como documentação viva do comportamento esperado do sistema, algo particularmente valioso quando novos desenvolvedores precisam entender código complexo ou quando você retorna a um projeto após meses. A integração com pipelines de CI/CD transforma esses testes em guardiões automatizados da qualidade, impedindo que bugs cheguem à produção e fornecendo feedback imediato sobre o impacto de cada mudança. Mais profundamente, a prática consistente de escrever testes influencia o design do próprio código, incentivando arquiteturas mais modulares e desacopladas que são naturalmente mais testáveis e, consequentemente, mais mantíveis. Dominar os conceitos apresentados aqui sobre mocking, fixtures, parametrized tests e padrões avançados capacita desenvolvedores a construir não apenas software que funciona hoje, mas sistemas resilientes que continuarão funcionando e evoluindo amanhã, independentemente do framework específico escolhido.
+
+- [Guia de Referência: Frameworks de Testes](./2__frameworks_overview.md)
+
+## 3. Organização de Diretório e Arquivos - Estrutura prática
+
+O gerenciamento eficaz de testes em estruturas complexas de diretórios requer uma abordagem sistemática que equilibre organização, performance e manutenibilidade. A prática recomendada sugere manter os arquivos de teste próximos ao código de produção, utilizando convenções de nomenclatura claras como ".test.ts" para testes unitários e ".integration.test.ts" para testes de integração. A configuração de scripts no package.json deve permitir execução granular dos testes, possibilitando que desenvolvedores executem apenas subconjuntos relevantes através de comandos como "test:services" ou "test:grep" com padrões específicos. A interpretação correta dos resultados é crucial: mensagens de timeout geralmente indicam problemas com operações assíncronas mal configuradas, enquanto erros de asserção apontam discrepâncias entre comportamento esperado e real. Ferramentas como nyc fornecem relatórios de cobertura que identificam linhas não testadas, guiando desenvolvedores sobre onde adicionar testes adicionais sem necessariamente buscar 100% de cobertura.
+
+As descrições de testes devem funcionar como documentação viva do sistema, seguindo o padrão de completar a frase "deve" com comportamentos específicos em linguagem de negócio ao invés de termos técnicos. O uso de blocos "describe" aninhados para agrupar cenários relacionados cria uma hierarquia clara que facilita a identificação de falhas no terminal. Técnicas avançadas incluem a criação de fixtures reutilizáveis para dados de teste, configuração de hooks globais que automatizam limpeza entre testes, e implementação de testes parametrizados que validam múltiplos casos com código conciso. A integração com pipelines de CI/CD garante execução automática dos testes a cada commit, enquanto configurações de debugging em editores como VS Code permitem investigar falhas complexas com breakpoints e inspeção de variáveis. O objetivo final é construir uma suíte de testes que previna regressões, documente comportamentos críticos e acelere o desenvolvimento sem se tornar um fardo de manutenção.
+
+- [Guia de Referência: Testes em Estruturas Complexas de Diretórios e Arquivos](./3__files_directories_complexity.md)
+
+## 4. Chai e Sinon para Testes com Mocha - Domínio das ferramentas
+
+Chai e Sinon representam dois pilares fundamentais no ecossistema de testes JavaScript e TypeScript, cada um atendendo a necessidades complementares mas distintas. O Chai funciona como uma biblioteca de asserções que transforma verificações técnicas em declarações quase naturais, permitindo que você escreva testes que se leem como frases em inglês. Por exemplo, ao invés de usar comparações diretas e pouco expressivas, você pode escrever algo como `expect(usuario).to.have.property('email').that.includes('@')`, o que torna imediatamente claro para qualquer desenvolvedor que leia o código qual é a intenção da verificação. A biblioteca oferece três estilos diferentes de sintaxe (assert, expect e should), sendo o estilo "expect" o mais popular por equilibrar legibilidade com segurança, já que não modifica protótipos globais como o estilo "should" faz. O Chai também se destaca por suas mensagens de erro extremamente descritivas, que ajudam a identificar rapidamente o que falhou em um teste, economizando tempo precioso durante o desenvolvimento e manutenção do código.
+
+O Sinon, por sua vez, resolve um problema diferente mas igualmente crucial: como isolar o código que você está testando das suas dependências externas. Imagine que você está testando uma função que envia emails e consulta um banco de dados, seria impraticável executar essas operações reais em cada teste, pois isso tornaria os testes lentos, imprevisíveis e dependentes de serviços externos. É aqui que o Sinon brilha, oferecendo spies para observar chamadas de funções sem alterar seu comportamento, stubs para substituir funções por versões controladas que retornam valores específicos, e mocks para criar objetos completos com expectativas pré-programadas. Um dos recursos mais poderosos do Sinon são os fake timers, que permitem controlar o tempo nos seus testes, fazendo com que um timeout de cinco segundos seja executado instantaneamente através de um simples comando `clock.tick(5000)`. Quando combinado com Chai através do plugin sinon-chai, você obtém o melhor dos dois mundos: pode verificar se uma função foi chamada com determinados argumentos usando uma sintaxe elegante como `expect(spy).to.have.been.calledWith('argumento')`, tornando seus testes não apenas funcionais, mas também altamente legíveis e fáceis de manter ao longo do tempo.
+
+- [Guia de Referência: Chai e Sinon para Testes](./4__guide_chai_sinon.md)
+
+## Testes Unitários - Aplicação no nível mais granular
 
 2 parágrafos introdutórios
 
-- [Guia de Refrência]
+- [Guia de Referência: Testes Unitários - Aplicação no Nível Mais Granular](./5__unit_tests.md)
 
-## 2. Frameworks para Testes
-
-2 parágrafos introdutórios
-
-- [Guia de Refrência]
-
-## 3. Organização de Diretório e Arquivos
-
-O guia apresentado oferece uma visão abrangente sobre como organizar e executar testes em aplicações TypeScript de grande escala utilizando o framework Mocha em conjunto com bibliotecas auxiliares como Chai e Sinon. O documento explora desde fundamentos teóricos, como os três pilares da organização de testes (rastreabilidade, manutenibilidade e escalabilidade), até aspectos práticos como a configuração de scripts no package.json que permitem executar testes de forma seletiva por diretório, tipo ou padrão de descrição. A abordagem enfatiza a importância de manter testes próximos ao código que testam, usando convenções de nomenclatura claras para distinguir entre testes unitários e de integração, além de demonstrar como interpretar relatórios de cobertura gerados pelo nyc para identificar áreas do código que carecem de testes adequados.
-
-O material também aprofunda em técnicas avançadas essenciais para o trabalho profissional, incluindo a interpretação de padrões comuns de erro (como timeouts em operações assíncronas e falhas de asserção), estratégias para escrever descrições de testes que funcionem como documentação viva do sistema, e a organização de fixtures reutilizáveis para evitar duplicação de dados de teste. Adicionalmente, o guia demonstra como configurar ambientes de debugging, utilizar hooks globais para setup compartilhado, implementar testes parametrizados para validar múltiplos cenários com código limpo, e integrar a suíte de testes em pipelines de integração contínua. Todos os exemplos práticos refletem desafios reais do mercado, como sistemas de autenticação, processamento de pagamentos e validação de dados, preparando desenvolvedores para aplicar essas técnicas em projetos profissionais complexos.
-
-- [Guia de Refrência]
-
-## 4. Chai e Sinon para Testes com Mocha
+## 6. Testes de Integração - Aplicação no nível intermediário
 
 2 parágrafos introdutórios
 
-- [Guia de Refrência]
+- [Guia de Referência: Testes de Integração - Aplicação no nível intermediário](./6__integration_tests.md)
 
-## 5. Testes para Arquitetura DDD
+## 7. Testes E2E - Aplicação no nível mais amplo
+
+2 parágrafos introdutórios
+
+- [Guia de Referência: Testes E2E - Aplicação no nível mais amplo](./7__e2e_tests.md)
+
+## 8. Testes Assíncronos - Caso especial transversal
+
+- [Guia de Referência: Testes Assíncronos - Caso especial transversal](./8__async_functions.md)
+
+## 9. Cobertura de Testes com c8 - Medição de qualidade
+
+A cobertura de testes com C8 representa uma abordagem moderna e eficiente para medir a qualidade dos testes automatizados em projetos Node.js e TypeScript. Utilizando a API nativa do motor V8, o C8 analisa quais linhas, funções, branches e declarações do código são executadas durante os testes, fornecendo métricas precisas sem necessidade de instrumentação prévia do código. A ferramenta gera relatórios em múltiplos formatos, incluindo tabelas no terminal para feedback imediato, arquivos `lcov.info` para integração com serviços de CI/CD, e visualizações HTML interativas que permitem navegar pelo código fonte identificando exatamente quais trechos carecem de testes. A configuração é simples através do `package.json`, onde scripts como `"coverage": "c8 mocha"` envolvem o framework de testes e monitoram toda a execução, enquanto opções de personalização permitem definir diretórios incluídos, excluídos, formatos de saída e limites mínimos de cobertura que devem ser respeitados.
+
+Alcançar e manter alta cobertura de testes requer uma abordagem estratégica que vai além de simplesmente executar mais linhas de código durante os testes. É fundamental testar todos os caminhos lógicos incluindo casos extremos, validar comportamentos em condições de erro, e garantir que branches condicionais sejam exercitadas em todas as suas variações possíveis. O exemplo prático apresentado demonstra como um serviço de processamento de pedidos pode atingir cobertura próxima a 100% através de testes sistemáticos que validam não apenas o fluxo principal, mas também cenários como validações de entrada, transições de estado inválidas, e limites de valores que acionam regras de negócio específicas. A visualização HTML gerada pelo C8 torna-se uma ferramenta indispensável durante code reviews e desenvolvimento, permitindo identificar rapidamente gaps de cobertura e priorizar esforços de teste em áreas críticas do sistema, sempre lembrando que cobertura alta é um meio para construir software confiável, não um fim em si mesmo.
+
+- [Guia de Referência: Cobertura de Testes com c8 - Medição de qualidade](./9__c8_coverage.md)
+
+## 10. Testes para Arquitetura DDD - Contexto arquitetural específico
 
 3 parágrafos introdutórios
 
-- [Elementos DDD 1]
-- [Elementos DDD 1]
-- [etc...]
+**Guia de Referência**:
 
-## 6. Cobertura de Testes com c8
+- [Entities](./ddd/a__ddd_entities.md)
+- [Value Objects](./ddd/b__ddd_value_objects.md)
+- [Agregados (Aggregates)](./ddd/c__ddd_aggregates.md)
+- [Repositories](./ddd/d__ddd_repositories.md)
+- [Use Cases](./ddd/e__ddd_use_cases.md)
+- [Services (Domain Services)](./ddd/f__ddd_domain_services.md)
+- [Controllers](./ddd/g__ddd_controllers.md)
+- [Adapters (Adaptadores)](./ddd/h__ddd_adapters.md)
+- [Interfaces](./ddd/i__ddd_interfaces.md)
+- [Domain (Core)](./ddd/j__ddd_domain_core.md)
+
+## 11. Design Patterns em DDD - Padrões e suas estratégias de teste
+
+Domain-Driven Design (DDD) utiliza diversos padrões arquiteturais para organizar a complexidade do domínio de negócio. Cada padrão possui características específicas que demandam estratégias de teste particulares.
+
+A arquitetura DDD estabelece uma relação direta entre a complexidade dos padrões utilizados e a necessidade de estratégias de teste específicas para cada camada da aplicação. Os padrões táticos como Aggregates e Value Objects concentram as regras de negócio mais críticas e, por isso, demandam uma cobertura massiva de testes unitários que validem invariantes e comportamentos esperados do domínio. Já os padrões estruturais como Repository e Factory atuam nas fronteiras entre camadas, exigindo testes de integração que verifiquem a comunicação adequada com infraestrutura externa, bancos de dados e sistemas terceiros. A pirâmide de testes em DDD tende a ser invertida em relação a aplicações tradicionais, priorizando maior volume de testes unitários no núcleo do domínio e quantidade moderada de testes de integração nas bordas arquiteturais.
+
+A escolha dos tipos de teste adequados para cada padrão DDD impacta diretamente na qualidade e manutenibilidade do software. Domain Services e Specifications, por exemplo, devem ser testados primariamente com mocks das dependências externas, garantindo que a lógica de negócio seja validada isoladamente e permaneça independente de detalhes de implementação. Domain Events, por sua vez, requerem testes que contemplem tanto handlers individuais quanto o fluxo completo de eventos em cenários de integração, assegurando que a comunicação assíncrona entre agregados funcione corretamente. A estratégia de testes em DDD também deve considerar a complexidade temporal, utilizando testes end-to-end para validar workflows completos que envolvem múltiplos agregados, eventos e transações, enquanto mantém a agilidade dos ciclos de feedback através de testes unitários rápidos e focados nas regras de negócio essenciais
+
+- [Guia de Referência: Design Patterns em DDD e Estratégias de Testes](./11_dp_ddd_strategy_tests.md)
+
+## 12. CI/CD com Github Actions - Automação de Testes do Pipeline
 
 2 parágrafos introdutórios
 
-- [Guia de Refrência]
+- [Guia de Referência]
 
-## 7. CI/CD com Github Actions
-
-2 parágrafos introdutórios
-
-- [Guia de Refrência]
-
-## 8. Testcontainers
+## 13. Testcontainers - Infraestrutura para testes de integração
 
 1 parágrafos introdutórios
 
-- [Guia de Refrência]
-
-## 9. Testes de Integração
-
-2 parágrafos introdutórios
-
-- [Guia de Refrência]
-
-## 10. Testes com foco em Design Patters (mais usados em DDD)
-
-4 parágrafos introdutórios
-
-- [DP DDD 1]
-- [DP DDD 1]
-- [etc...]
+- [Guia de Referência]

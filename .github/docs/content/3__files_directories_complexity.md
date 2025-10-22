@@ -1,8 +1,8 @@
-# Testes em Estruturas Complexas de Diretórios: Guia Completo
+# Testes em Estruturas Complexas de Diretórios e Arquivos: Guia Completo
 
 ## Índice
 
-- [Testes em Estruturas Complexas de Diretórios: Guia Completo](#testes-em-estruturas-complexas-de-diretórios-guia-completo)
+- [Testes em Estruturas Complexas de Diretórios e Arquivos: Guia Completo](#testes-em-estruturas-complexas-de-diretórios-e-arquivos-guia-completo)
   - [Índice](#índice)
   - [Introdução aos Fundamentos de Testes](#introdução-aos-fundamentos-de-testes)
   - [Configuração de Scripts no package.json](#configuração-de-scripts-no-packagejson)

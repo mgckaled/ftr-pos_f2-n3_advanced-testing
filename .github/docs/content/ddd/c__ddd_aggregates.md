@@ -2,7 +2,7 @@
 
 ## Introdução
 
-Aggregates são clusters de objetos de domínio tratados como uma unidade coesa para mudanças de dados. Um Aggregate possui uma raiz (Aggregate Root) que é a única entrada para modificações no cluster. Os testes de Aggregates devem focar na consistência transacional, nas regras de negócio que abrangem múltiplas entidades, e na garantia de que apenas a raiz pode modificar os objetos internos. A estratégia principal são testes unitários que validam a integridade do agregado como um todo.
+Aggregates são clusters de objetos de domínio tratados como uma unidade coesa para mudanças de dados. Um Aggregate possui uma raiz (Aggregate Root) que é a única entrada para modificações no cluster. Os testes de Aggregates devem focar na consic_ddd_aggregatesstência transacional, nas regras de negócio que abrangem múltiplas entidades, e na garantia de que apenas a raiz pode modificar os objetos internos. A estratégia principal são testes unitários que validam a integridade do agregado como um todo.
 
 ## Estratégias de Teste
 
