@@ -2,12 +2,66 @@
 
 ## Índice
 
-- [Conceitos Fundamentais](#conceitos-fundamentais)
-- [Tipos de Teste](#tipos-de-teste)
-- [Técnicas e Estratégias](#técnicas-e-estratégias)
-- [Padrões e Práticas](#padrões-e-práticas)
-- [CI/CD](#cicd)
-- [Conceitos Avançados](#conceitos-avançados)
+- [Glossário de Testes de Software](#glossário-de-testes-de-software)
+  - [Índice](#índice)
+  - [Conceitos Fundamentais](#conceitos-fundamentais)
+    - [Teste de Software](#teste-de-software)
+    - [Teste Automatizado](#teste-automatizado)
+    - [Teste Manual](#teste-manual)
+  - [Tipos de Teste](#tipos-de-teste)
+    - [Teste Funcional](#teste-funcional)
+    - [Teste Não Funcional](#teste-não-funcional)
+    - [Teste de Performance](#teste-de-performance)
+    - [Teste de Carga](#teste-de-carga)
+    - [Teste de Estresse](#teste-de-estresse)
+    - [Teste de Segurança](#teste-de-segurança)
+    - [Teste de Usabilidade](#teste-de-usabilidade)
+    - [Teste E2E (End-to-End)](#teste-e2e-end-to-end)
+    - [Teste de Fumaça (Smoke Test)](#teste-de-fumaça-smoke-test)
+    - [Teste de Sanidade (Sanity Test)](#teste-de-sanidade-sanity-test)
+    - [Teste Exploratório](#teste-exploratório)
+  - [Técnicas e Estratégias](#técnicas-e-estratégias)
+    - [Caixa Preta (Black Box)](#caixa-preta-black-box)
+    - [Caixa Branca (White Box)](#caixa-branca-white-box)
+    - [Caixa Cinza (Gray Box)](#caixa-cinza-gray-box)
+    - [TDD (Test-Driven Development)](#tdd-test-driven-development)
+    - [BDD (Behavior-Driven Development)](#bdd-behavior-driven-development)
+    - [Cobertura de Código](#cobertura-de-código)
+    - [Mocking e Stubbing](#mocking-e-stubbing)
+  - [Padrões e Práticas](#padrões-e-práticas)
+    - [Fixture](#fixture)
+    - [Flaky Test](#flaky-test)
+    - [Page Object Model](#page-object-model)
+    - [Pirâmide de Testes](#pirâmide-de-testes)
+    - [AAA Pattern (Arrange-Act-Assert)](#aaa-pattern-arrange-act-assert)
+  - [CI/CD](#cicd)
+    - [Continuous Integration (Integração Contínua)](#continuous-integration-integração-contínua)
+    - [Continuous Delivery/Deployment (Entrega/Implantação Contínua)](#continuous-deliverydeployment-entregaimplantação-contínua)
+  - [Conceitos Avançados](#conceitos-avançados)
+    - [Mutation Testing](#mutation-testing)
+    - [Test Doubles](#test-doubles)
+    - [Snapshot Testing](#snapshot-testing)
+    - [Contract Testing](#contract-testing)
+    - [Property-Based Testing](#property-based-testing)
+    - [Visual Regression Testing](#visual-regression-testing)
+    - [Chaos Engineering](#chaos-engineering)
+  - [Outros Conceitos](#outros-conceitos)
+    - [Assertion](#assertion)
+    - [Test Runner](#test-runner)
+    - [Test Framework](#test-framework)
+    - [Teste de Acessibilidade](#teste-de-acessibilidade)
+    - [API Testing](#api-testing)
+    - [GraphQL Testing](#graphql-testing)
+    - [Test Data Management](#test-data-management)
+    - [Métricas de Teste](#métricas-de-teste)
+    - [Test Smell (Cheiro de Teste)](#test-smell-cheiro-de-teste)
+    - [Teste de Regressão](#teste-de-regressão)
+    - [Teste de Integração](#teste-de-integração)
+    - [Teste Unitário](#teste-unitário)
+    - [Retry Pattern](#retry-pattern)
+  - [Conclusão](#conclusão)
+    - [Pontos-Chave](#pontos-chave)
+    - [Próximos Passos](#próximos-passos)
 
 ---
 
@@ -1174,5 +1228,644 @@ describe('Test Doubles - Exemplos', () => {
     
     await servico.notificar('user@example.com');
     
-    expect(fake.emailsEnviados).
+    expect(fake.emailsEnviados).to.have.lengthOf(1);
+    expect(fake.emailsEnviados[0].assunto).to.equal('Bem-vindo');
+  });
+});
 ```
+
+---
+
+### Snapshot Testing
+
+**Iniciante:** Salvar uma foto do resultado de um teste e comparar com essa foto nas próximas execuções para detectar mudanças inesperadas.
+
+**Estudante:** Técnica que captura a saída de um componente ou função e compara com uma versão salva anteriormente, detectando mudanças não intencionais.
+
+**Profissional:** Abordagem de teste que serializa e armazena saída de componentes ou estruturas de dados, comparando execuções futuras contra snapshots salvos. Útil para UI components, APIs e estruturas complexas, mas requer disciplina para revisar mudanças legítimas.
+
+```typescript
+import { expect } from 'chai';
+import * as fs from 'fs';
+
+function matchSnapshot(nome: string, dados: any): void {
+  const caminhoSnapshot = `./snapshots/${nome}.json`;
+  const dadosSerializados = JSON.stringify(dados, null, 2);
+  
+  if (!fs.existsSync(caminhoSnapshot)) {
+    fs.writeFileSync(caminhoSnapshot, dadosSerializados);
+    return;
+  }
+  
+  const snapshotSalvo = fs.readFileSync(caminhoSnapshot, 'utf-8');
+  expect(dadosSerializados).to.equal(snapshotSalvo);
+}
+
+describe('Snapshot Testing - Componente de Produto', () => {
+  it('deve corresponder ao snapshot do card de produto', () => {
+    const produto = {
+      id: 1,
+      nome: 'Notebook Dell',
+      preco: 3500.00,
+      descricao: 'Intel i5, 8GB RAM',
+      disponivel: true
+    };
+    
+    const cardHTML = renderizarCardProduto(produto);
+    matchSnapshot('card-produto-basico', cardHTML);
+  });
+});
+```
+
+---
+
+### Contract Testing
+
+**Iniciante:** Testes que verificam se diferentes partes do sistema concordam sobre como devem se comunicar entre si.
+
+**Estudante:** Validação de que consumidores e provedores de API concordam sobre a estrutura e comportamento das mensagens trocadas.
+
+**Profissional:** Técnica que valida contratos entre serviços através de testes consumer-driven, onde consumidores definem expectativas que provedores devem satisfazer. Ferramentas como Pact permitem teste independente de microsserviços sem integração completa.
+
+```typescript
+import { expect } from 'chai';
+
+interface ContratoUsuarioAPI {
+  obterUsuario(id: number): Promise<{
+    id: number;
+    nome: string;
+    email: string;
+    ativo: boolean;
+  }>;
+}
+
+describe('Contract Testing - Consumer Side', () => {
+  it('contrato: obterUsuario deve retornar estrutura correta', async () => {
+    const mockProvider: ContratoUsuarioAPI = {
+      obterUsuario: async (id) => ({
+        id: 1,
+        nome: 'João Silva',
+        email: 'joao@example.com',
+        ativo: true
+      })
+    };
+    
+    const usuario = await mockProvider.obterUsuario(1);
+    
+    expect(usuario).to.have.all.keys('id', 'nome', 'email', 'ativo');
+    expect(usuario.id).to.be.a('number');
+    expect(usuario.nome).to.be.a('string');
+  });
+});
+```
+
+---
+
+### Property-Based Testing
+
+**Iniciante:** Ao invés de testar exemplos específicos, você define propriedades que devem ser sempre verdadeiras e o teste gera vários casos automaticamente.
+
+**Estudante:** Técnica que gera automaticamente casos de teste baseados em propriedades invariantes que devem ser mantidas para qualquer entrada válida.
+
+**Profissional:** Abordagem de teste que utiliza geradores automáticos de dados para validar propriedades universais do sistema, explorando edge cases e combinações não previstas. Complementa testes baseados em exemplos, sendo especialmente eficaz para funções puras e algoritmos.
+
+```typescript
+import { expect } from 'chai';
+
+function gerarInteiroAleatorio(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+describe('Property-Based Testing', () => {
+  it('propriedade: reverter array duas vezes retorna original', () => {
+    for (let i = 0; i < 100; i++) {
+      const tamanho = gerarInteiroAleatorio(0, 50);
+      const array = Array.from({ length: tamanho }, () => 
+        gerarInteiroAleatorio(-1000, 1000)
+      );
+      
+      const original = [...array];
+      const revertido = reverter(array);
+      const duploRevertido = reverter(revertido);
+      
+      expect(duploRevertido).to.deep.equal(original);
+    }
+  });
+});
+```
+
+---
+
+### Visual Regression Testing
+
+**Iniciante:** Testes que comparam capturas de tela da interface para detectar mudanças visuais não intencionais.
+
+**Estudante:** Técnica automatizada que captura screenshots de páginas ou componentes e compara com versões anteriores para identificar diferenças visuais.
+
+**Profissional:** Abordagem de teste que utiliza comparação pixel-a-pixel ou baseada em IA de screenshots para detectar regressões visuais não intencionais em UI, incluindo problemas de layout, fontes, cores e responsividade através de ferramentas como Percy, BackstopJS ou Chromatic.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Visual Regression', () => {
+  it('deve corresponder ao snapshot visual do botão', async () => {
+    const botao = renderizarBotao({
+      tipo: 'primario',
+      texto: 'Confirmar'
+    });
+    
+    const screenshot = await capturarScreenshot(botao);
+    const diff = await compararComBaseline(
+      screenshot,
+      'botao-primario-baseline.png'
+    );
+    
+    expect(diff.percentualDiferenca).to.be.below(0.1);
+  });
+});
+```
+
+---
+
+### Chaos Engineering
+
+**Iniciante:** Testar o sistema causando problemas propositalmente, como desligar servidores, para ver se ele continua funcionando.
+
+**Estudante:** Prática de introduzir falhas controladas em produção para testar resiliência e capacidade de recuperação do sistema.
+
+**Profissional:** Disciplina de experimentação em sistemas distribuídos que injeta falhas deliberadas e controladas em produção para validar resiliência, descobrir fraquezas antes que causem incidentes e construir confiança na capacidade do sistema de suportar condições turbulentas.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Chaos Engineering', () => {
+  it('deve continuar operando com latência alta', async () => {
+    const apiComLatencia = new APIComLatencia(5000);
+    const servico = new ServicoComTimeout(apiComLatencia, 10000);
+    
+    const resultado = await servico.buscarDados();
+    expect(resultado).to.exist;
+  });
+  
+  it('deve fazer fallback quando serviço falha', async () => {
+    const servicoPrincipal = new ServicoQueFalha();
+    const servicoBackup = new ServicoBackup();
+    const servicoComFallback = new ServicoComFallback(
+      servicoPrincipal,
+      servicoBackup
+    );
+    
+    const resultado = await servicoComFallback.buscar();
+    expect(resultado.fonte).to.equal('backup');
+  });
+});
+```
+
+---
+
+## Outros Conceitos
+
+### Assertion
+
+**Iniciante:** Declaração que verifica se algo é verdadeiro no teste, como verificar se um resultado é igual ao esperado.
+
+**Estudante:** Instrução que valida uma condição esperada, falhando o teste se a condição não for satisfeita.
+
+**Profissional:** Declaração booleana que verifica invariantes ou pós-condições no código de teste, formando a base da validação em testes automatizados. Frameworks fornecem bibliotecas ricas de assertions para diferentes tipos de validações.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Assertions - Exemplos', () => {
+  it('assertions de igualdade', () => {
+    expect(2 + 2).to.equal(4);
+    expect({ a: 1 }).to.deep.equal({ a: 1 });
+  });
+  
+  it('assertions de tipo', () => {
+    expect('texto').to.be.a('string');
+    expect(42).to.be.a('number');
+  });
+  
+  it('assertions de coleções', () => {
+    const numeros = [1, 2, 3];
+    expect(numeros).to.have.lengthOf(3);
+    expect(numeros).to.include(2);
+  });
+});
+```
+
+---
+
+### Test Runner
+
+**Iniciante:** Programa que executa todos os testes automaticamente e mostra quais passaram ou falharam.
+
+**Estudante:** Ferramenta que descobre, executa e reporta resultados de testes, gerenciando o ciclo de vida da suíte de testes.
+
+**Profissional:** Framework que orquestra execução de testes, gerenciando descoberta de testes, setup/teardown, execução paralela, filtragem, reporting e integração com ferramentas de CI. Exemplos incluem Mocha, Jest, Vitest.
+
+```typescript
+describe('Test Runner - Hooks', () => {
+  before(() => {
+    console.log('Setup inicial');
+  });
+  
+  after(() => {
+    console.log('Limpeza final');
+  });
+  
+  beforeEach(() => {
+    console.log('Setup antes de cada teste');
+  });
+  
+  afterEach(() => {
+    console.log('Limpeza após cada teste');
+  });
+  
+  it('teste 1', () => {
+    expect(true).to.be.true;
+  });
+});
+```
+
+---
+
+### Test Framework
+
+**Iniciante:** Conjunto de ferramentas e bibliotecas que facilitam escrever e organizar testes.
+
+**Estudante:** Biblioteca que fornece estrutura, utilitários e convenções para criação e organização de testes automatizados.
+
+**Profissional:** Ecossistema completo que fornece primitivas para definição de testes (describe, it), assertions, mocking, fixtures, reporters e integração com outras ferramentas. Exemplos: Mocha + Chai + Sinon, Jest, Vitest.
+
+---
+
+### Teste de Acessibilidade
+
+**Iniciante:** Verificar se o site pode ser usado por pessoas com deficiência, como usar leitores de tela ou navegar apenas com teclado.
+
+**Estudante:** Validação de que a aplicação atende a padrões de acessibilidade (WCAG) e pode ser utilizada por pessoas com diferentes capacidades.
+
+**Profissional:** Processo de validar conformidade com diretrizes de acessibilidade (WCAG, Section 508) através de testes automatizados e manuais, verificando navegação por teclado, compatibilidade com tecnologias assistivas, contraste, ARIA attributes e semântica HTML.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Acessibilidade', () => {
+  it('deve ter atributos ARIA corretos', () => {
+    const botao = renderizarBotao({ texto: 'Fechar' });
+    const html = botao.outerHTML;
+    
+    expect(html).to.include('role="button"');
+    expect(html).to.include('aria-label="Fechar"');
+  });
+  
+  it('deve ter alt text em imagens', () => {
+    const imagens = document.querySelectorAll('img');
+    imagens.forEach(img => {
+      expect(img.hasAttribute('alt')).to.be.true;
+    });
+  });
+});
+```
+
+---
+
+### API Testing
+
+**Iniciante:** Testar APIs (comunicação entre sistemas) verificando se as requisições retornam as respostas corretas.
+
+**Estudante:** Validação de endpoints de API testando requisições HTTP, validando respostas, códigos de status e contratos.
+
+**Profissional:** Processo de validar interfaces de programação através de testes funcionais, de contrato, de performance e segurança, verificando requisições, respostas, autenticação, autorização, validação de dados, tratamento de erros e conformidade com especificações (OpenAPI, GraphQL Schema).
+
+```typescript
+import { expect } from 'chai';
+
+describe('API Testing', () => {
+  it('deve retornar usuário quando existe', async () => {
+    const resposta = await fetch('/api/usuarios/1');
+    const dados = await resposta.json();
+    
+    expect(resposta.status).to.equal(200);
+    expect(dados).to.have.property('id', 1);
+    expect(dados).to.have.property('nome');
+  });
+  
+  it('deve retornar 404 quando não existe', async () => {
+    const resposta = await fetch('/api/usuarios/99999');
+    expect(resposta.status).to.equal(404);
+  });
+});
+```
+
+---
+
+### GraphQL Testing
+
+**Iniciante:** Testar APIs GraphQL verificando se as queries e mutations retornam os dados corretos.
+
+**Estudante:** Validação de endpoints GraphQL testando queries, mutations, subscriptions e validação de schema.
+
+**Profissional:** Processo especializado de testar APIs GraphQL incluindo validação de schema, resolvers, queries complexas, mutations, autenticação, autorização, N+1 queries, performance de resolvers e tratamento de erros específicos do GraphQL.
+
+```typescript
+import { expect } from 'chai';
+
+describe('GraphQL Testing', () => {
+  it('deve buscar usuário por ID', async () => {
+    const query = `
+      query {
+        usuario(id: 1) {
+          id
+          nome
+          email
+        }
+      }
+    `;
+    
+    const resposta = await executarGraphQL(query);
+    
+    expect(resposta.errors).to.be.undefined;
+    expect(resposta.data.usuario).to.exist;
+    expect(resposta.data.usuario.id).to.equal(1);
+  });
+});
+```
+
+---
+
+### Test Data Management
+
+**Iniciante:** Gerenciar os dados usados nos testes, garantindo que cada teste tenha os dados necessários de forma organizada.
+
+**Estudante:** Processo de criar, manter e limpar dados de teste de forma consistente e independente entre testes.
+
+**Profissional:** Disciplina de gerenciar ciclo de vida de dados de teste incluindo criação de fixtures, seeding de banco, isolamento entre testes, geração de dados sintéticos, anonimização de dados de produção e estratégias de cleanup para garantir testes determinísticos e independentes.
+
+```typescript
+import { expect } from 'chai';
+
+class UsuarioBuilder {
+  private dados: any = {
+    nome: 'Usuário Teste',
+    email: 'teste@example.com'
+  };
+  
+  comNome(nome: string): this {
+    this.dados.nome = nome;
+    return this;
+  }
+  
+  comEmail(email: string): this {
+    this.dados.email = email;
+    return this;
+  }
+  
+  build(): any {
+    return { ...this.dados };
+  }
+}
+
+describe('Test Data Management', () => {
+  it('deve criar usuário com builder', () => {
+    const usuario = new UsuarioBuilder()
+      .comNome('João Silva')
+      .comEmail('joao@example.com')
+      .build();
+    
+    expect(usuario.nome).to.equal('João Silva');
+  });
+});
+```
+
+---
+
+### Métricas de Teste
+
+**Iniciante:** Números que ajudam a entender a qualidade dos testes, como quantos testes passaram e quanto do código foi testado.
+
+**Estudante:** Indicadores quantitativos que medem efetividade, cobertura e qualidade dos testes, incluindo cobertura de código, taxa de defeitos e tempo de execução.
+
+**Profissional:** Conjunto de KPIs que avaliam maturidade e efetividade do processo de teste: cobertura de código (line, branch, function), mutation score, flakiness rate, tempo de execução, taxa de detecção de defeitos, custo por defeito, ROI de automação e mean time to detect/repair bugs.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Métricas de Teste', () => {
+  it('deve rastrear tempo de execução', () => {
+    const inicio = Date.now();
+    const resultado = operacaoRapida();
+    const tempoDecorrido = Date.now() - inicio;
+    
+    expect(tempoDecorrido).to.be.below(100);
+  });
+  
+  it('deve calcular taxa de sucesso', () => {
+    const resultados = {
+      passaram: 95,
+      falharam: 3
+    };
+    
+    const taxaSucesso = (resultados.passaram / 
+      (resultados.passaram + resultados.falharam)) * 100;
+    
+    expect(taxaSucesso).to.be.above(95);
+  });
+});
+```
+
+---
+
+### Test Smell (Cheiro de Teste)
+
+**Iniciante:** Sinais de que um teste está mal escrito, como ser muito longo ou depender de outros testes.
+
+**Estudante:** Padrões problemáticos em código de teste que indicam baixa qualidade, dificuldade de manutenção ou design inadequado.
+
+**Profissional:** Anti-padrões em testes que indicam problemas estruturais: testes frágeis, dependências entre testes, assertions ambíguas, setup complexo, testes lentos, lógica condicional em testes, ou falta de isolamento. Identificar e refatorar test smells melhora qualidade e manutenibilidade.
+
+```typescript
+import { expect } from 'chai';
+
+// RUIM: Testes dependentes
+describe('Test Smell - Dependência', () => {
+  let usuarioGlobal: any;
+  
+  it('teste 1: criar usuário', async () => {
+    usuarioGlobal = await criarUsuario({ nome: 'João' });
+  });
+  
+  it('teste 2: atualizar usuário', async () => {
+    // Depende do teste anterior - RUIM
+    await atualizarUsuario(usuarioGlobal);
+  });
+});
+
+// BOM: Testes independentes
+describe('Sem Test Smell', () => {
+  it('deve criar usuário', async () => {
+    const usuario = await criarUsuario({ nome: 'João' });
+    expect(usuario.id).to.exist;
+  });
+  
+  it('deve atualizar usuário', async () => {
+    const usuario = await criarUsuario({ nome: 'João' });
+    await atualizarUsuario(usuario);
+    expect(usuario.nome).to.equal('João Silva');
+  });
+});
+```
+
+---
+
+### Teste de Regressão
+
+**Iniciante:** Testes que garantem que mudanças no código não quebraram funcionalidades que já estavam funcionando.
+
+**Estudante:** Processo de re-executar testes existentes após mudanças no código para verificar que funcionalidades anteriores continuam operando corretamente.
+
+**Profissional:** Estratégia de teste que valida que modificações recentes no código não introduziram defeitos em funcionalidades existentes, utilizando automação, seleção inteligente de testes e análise de impacto para otimizar execução em ciclos de CI/CD.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Teste de Regressão', () => {
+  it('deve manter comportamento após refatoração', () => {
+    expect(calcularPrecoFinal(100, 'basico')).to.equal(100);
+    expect(calcularPrecoFinal(100, 'premium')).to.equal(85);
+    expect(calcularPrecoFinal(100, 'vip')).to.equal(70);
+  });
+});
+```
+
+---
+
+### Teste de Integração
+
+**Iniciante:** Testes que verificam se diferentes partes do sistema funcionam bem juntas.
+
+**Estudante:** Validação da interação entre múltiplos componentes ou módulos do sistema, verificando se trabalham corretamente em conjunto.
+
+**Profissional:** Categoria de teste que valida interfaces e interações entre componentes integrados, incluindo integração de módulos, APIs, bancos de dados, serviços externos e message brokers, identificando problemas de comunicação, serialização, transações e contratos entre componentes.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Teste de Integração', () => {
+  it('deve criar usuário e persistir no banco', async () => {
+    const servico = new UsuarioService(new UsuarioRepository(conexaoBanco));
+    const dados = { nome: 'João', email: 'joao@example.com' };
+    
+    const usuario = await servico.criar(dados);
+    
+    expect(usuario.id).to.exist;
+    
+    const usuarioBanco = await conexaoBanco.query(
+      'SELECT * FROM usuarios WHERE id = ?',
+      [usuario.id]
+    );
+    
+    expect(usuarioBanco[0].nome).to.equal(dados.nome);
+  });
+});
+```
+
+---
+
+### Teste Unitário
+
+**Iniciante:** Testar uma pequena parte do código isoladamente, como uma única função.
+
+**Estudante:** Validação de unidades individuais de código (funções, métodos, classes) em isolamento, geralmente usando mocks para dependências.
+
+**Profissional:** Teste de menor granularidade que valida comportamento de unidades individuais de código em completo isolamento, utilizando test doubles para dependências externas. Deve ser rápido, determinístico e seguir princípios FIRST (Fast, Independent, Repeatable, Self-validating, Timely). Base da pirâmide de testes.
+
+```typescript
+import { expect } from 'chai';
+
+describe('Teste Unitário', () => {
+  it('deve somar dois números', () => {
+    expect(somar(2, 3)).to.equal(5);
+  });
+  
+  it('deve validar email', () => {
+    const validador = new ValidadorEmail();
+    expect(validador.validar('user@example.com')).to.be.true;
+    expect(validador.validar('invalid')).to.be.false;
+  });
+});
+```
+
+---
+
+### Retry Pattern
+
+**Iniciante:** Tentar executar uma operação novamente quando ela falha, útil para lidar com problemas temporários.
+
+**Estudante:** Padrão que repete automaticamente uma operação falhada após um intervalo, usado para lidar com falhas transientes.
+
+**Profissional:** Padrão de resiliência que implementa lógica de retentativa para operações que podem falhar temporariamente, incluindo estratégias como retry exponencial com jitter, circuit breaker integration e políticas de fallback. Essencial para sistemas distribuídos e integração com serviços externos.
+
+```typescript
+import { expect } from 'chai';
+
+async function retryComTentativas<T>(
+  operacao: () => Promise<T>,
+  maxTentativas: number
+): Promise<T> {
+  let ultimoErro: Error;
+  
+  for (let i = 0; i < maxTentativas; i++) {
+    try {
+      return await operacao();
+    } catch (erro) {
+      ultimoErro = erro as Error;
+      if (i === maxTentativas - 1) throw ultimoErro;
+    }
+  }
+  
+  throw ultimoErro;
+}
+
+describe('Retry Pattern', () => {
+  it('deve retentar após falha', async () => {
+    let tentativas = 0;
+    const operacao = async () => {
+      tentativas++;
+      if (tentativas < 3) throw new Error('Falha temporária');
+      return 'sucesso';
+    };
+    
+    const resultado = await retryComTentativas(operacao, 3);
+    expect(resultado).to.equal('sucesso');
+    expect(tentativas).to.equal(3);
+  });
+});
+```
+
+---
+
+## Conclusão
+
+Este glossário apresenta os principais conceitos de testes de software com exemplos práticos em TypeScript usando Mocha, Chai e Sinon.
+
+### Pontos-Chave
+
+**Iniciantes:** Focar em conceitos fundamentais e testes unitários simples
+
+**Estudantes:** Expandir para diferentes tipos de teste e técnicas como TDD/BDD
+
+**Profissionais:** Dominar estratégias avançadas, CI/CD e padrões de resiliência
+
+### Próximos Passos
+
+1. Praticar em projetos reais
+2. Configurar pipelines de CI/CD
+3. Monitorar métricas de teste
+4. Acompanhar novas ferramentas
+
+---
+
+**Lembre-se:** Testes não são apenas sobre encontrar bugs, mas sobre construir confiança no código e facilitar refatoração.

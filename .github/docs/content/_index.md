@@ -11,7 +11,7 @@
   - [2. Frameworks de Testes - Panorama de ferramentas](#2-frameworks-de-testes---panorama-de-ferramentas)
   - [3. Organização de Diretório e Arquivos - Estrutura prática](#3-organização-de-diretório-e-arquivos---estrutura-prática)
   - [4. Chai e Sinon para Testes com Mocha - Domínio das ferramentas](#4-chai-e-sinon-para-testes-com-mocha---domínio-das-ferramentas)
-  - [Testes Unitários - Aplicação no nível mais granular](#testes-unitários---aplicação-no-nível-mais-granular)
+  - [5. Testes Unitários - Aplicação no nível mais granular](#5-testes-unitários---aplicação-no-nível-mais-granular)
   - [6. Testes de Integração - Aplicação no nível intermediário](#6-testes-de-integração---aplicação-no-nível-intermediário)
   - [7. Testes E2E - Aplicação no nível mais amplo](#7-testes-e2e---aplicação-no-nível-mais-amplo)
   - [8. Testes Assíncronos - Caso especial transversal](#8-testes-assíncronos---caso-especial-transversal)
@@ -23,7 +23,7 @@
 
 ## Glossário / Terminologia
 
-1 parágrafo
+Este glossário foi desenvolvido como um recurso abrangente e progressivo para profissionais de tecnologia em diferentes estágios de conhecimento sobre testes de software. Estruturado em três níveis de compreensão (iniciante, estudante e profissional), o material apresenta mais de 40 conceitos fundamentais, técnicas avançadas e padrões de mercado, todos exemplificados com código TypeScript real utilizando Mocha, Chai e Sinon. Os exemplos práticos foram cuidadosamente elaborados para refletir desafios reais do dia a dia de desenvolvimento, desde validações simples até cenários complexos envolvendo integração de sistemas, APIs, bancos de dados e resiliência. O objetivo é servir como material de consulta rápida e aprendizado contínuo, permitindo que desenvolvedores iniciantes compreendam os conceitos básicos, estudantes aprofundem suas habilidades técnicas, e profissionais refinhem suas estratégias de teste em ambientes de produção modernos com CI/CD e DevOps.
 
 - [Glossário](./0__terminology.md)
 
@@ -33,7 +33,7 @@ Os testes automatizados representam a espinha dorsal da qualidade no desenvolvim
 
 Além dessa estrutura fundamental, existem categorias especializadas que atendem necessidades específicas do desenvolvimento profissional. Os testes de performance verificam se o sistema mantém tempos de resposta aceitáveis sob diferentes cargas de usuários, enquanto os testes de segurança procuram vulnerabilidades como injeção SQL e ataques XSS que poderiam comprometer dados sensíveis. Os testes de acessibilidade garantem que a aplicação seja utilizável por pessoas com diferentes necessidades, e os testes de regressão visual detectam mudanças não intencionais na interface. Quando bem implementados seguindo práticas como independência entre testes, nomes descritivos e cobertura de casos extremos, esses diferentes tipos de testes trabalham em conjunto para criar um ecossistema robusto que reduz drasticamente a probabilidade de bugs chegarem à produção e permite que equipes modifiquem código legado com segurança.
 
-- [Níveis de Testes](./1__test_levels.md)
+- [Níveis de Testes - Fundação conceitual](./1__test_levels.md)
 
 ## 2. Frameworks de Testes - Panorama de ferramentas
 
@@ -43,7 +43,7 @@ A escolha de um framework de testes vai muito além de preferências pessoais ou
 
 O impacto real dos frameworks de testes se manifesta na capacidade de uma equipe manter e evoluir software com confiança ao longo do tempo, transformando a cultura de desenvolvimento de reativa para proativa. Quando você tem uma suite de testes bem estruturada usando qualquer desses frameworks, refatorações que antes seriam arriscadas se tornam seguras e até encorajadas, permitindo que o código evolua para acompanhar mudanças de requisitos sem acumular dívida técnica. Os exemplos práticos apresentados neste guia demonstram como testes bem escritos servem também como documentação viva do comportamento esperado do sistema, algo particularmente valioso quando novos desenvolvedores precisam entender código complexo ou quando você retorna a um projeto após meses. A integração com pipelines de CI/CD transforma esses testes em guardiões automatizados da qualidade, impedindo que bugs cheguem à produção e fornecendo feedback imediato sobre o impacto de cada mudança. Mais profundamente, a prática consistente de escrever testes influencia o design do próprio código, incentivando arquiteturas mais modulares e desacopladas que são naturalmente mais testáveis e, consequentemente, mais mantíveis. Dominar os conceitos apresentados aqui sobre mocking, fixtures, parametrized tests e padrões avançados capacita desenvolvedores a construir não apenas software que funciona hoje, mas sistemas resilientes que continuarão funcionando e evoluindo amanhã, independentemente do framework específico escolhido.
 
-- [Guia de Referência: Frameworks de Testes](./2__frameworks_overview.md)
+- [Guia de Referência: Frameworks de Testes - Panorama de ferramentas](./2__frameworks_overview.md)
 
 ## 3. Organização de Diretório e Arquivos - Estrutura prática
 
@@ -51,7 +51,7 @@ O gerenciamento eficaz de testes em estruturas complexas de diretórios requer u
 
 As descrições de testes devem funcionar como documentação viva do sistema, seguindo o padrão de completar a frase "deve" com comportamentos específicos em linguagem de negócio ao invés de termos técnicos. O uso de blocos "describe" aninhados para agrupar cenários relacionados cria uma hierarquia clara que facilita a identificação de falhas no terminal. Técnicas avançadas incluem a criação de fixtures reutilizáveis para dados de teste, configuração de hooks globais que automatizam limpeza entre testes, e implementação de testes parametrizados que validam múltiplos casos com código conciso. A integração com pipelines de CI/CD garante execução automática dos testes a cada commit, enquanto configurações de debugging em editores como VS Code permitem investigar falhas complexas com breakpoints e inspeção de variáveis. O objetivo final é construir uma suíte de testes que previna regressões, documente comportamentos críticos e acelere o desenvolvimento sem se tornar um fardo de manutenção.
 
-- [Guia de Referência: Testes em Estruturas Complexas de Diretórios e Arquivos](./3__files_directories_complexity.md)
+- [Guia de Referência: Organização de Diretório e Arquivos - Estrutura prática](./3__files_directories_complexity.md)
 
 ## 4. Chai e Sinon para Testes com Mocha - Domínio das ferramentas
 
@@ -59,23 +59,29 @@ Chai e Sinon representam dois pilares fundamentais no ecossistema de testes Java
 
 O Sinon, por sua vez, resolve um problema diferente mas igualmente crucial: como isolar o código que você está testando das suas dependências externas. Imagine que você está testando uma função que envia emails e consulta um banco de dados, seria impraticável executar essas operações reais em cada teste, pois isso tornaria os testes lentos, imprevisíveis e dependentes de serviços externos. É aqui que o Sinon brilha, oferecendo spies para observar chamadas de funções sem alterar seu comportamento, stubs para substituir funções por versões controladas que retornam valores específicos, e mocks para criar objetos completos com expectativas pré-programadas. Um dos recursos mais poderosos do Sinon são os fake timers, que permitem controlar o tempo nos seus testes, fazendo com que um timeout de cinco segundos seja executado instantaneamente através de um simples comando `clock.tick(5000)`. Quando combinado com Chai através do plugin sinon-chai, você obtém o melhor dos dois mundos: pode verificar se uma função foi chamada com determinados argumentos usando uma sintaxe elegante como `expect(spy).to.have.been.calledWith('argumento')`, tornando seus testes não apenas funcionais, mas também altamente legíveis e fáceis de manter ao longo do tempo.
 
-- [Guia de Referência: Chai e Sinon para Testes](./4__guide_chai_sinon.md)
+- [Guia de Referência: Chai e Sinon para Testes com Mocha - Domínio das ferramentas](./4__guide_chai_sinon.md)
 
-## Testes Unitários - Aplicação no nível mais granular
+## 5. Testes Unitários - Aplicação no nível mais granular
 
-2 parágrafos introdutórios
+Testes unitários representam a fundação da qualidade de software, atuando como a primeira linha de defesa contra defeitos no código. Quando falamos em aplicação no nível mais granular, estamos nos referindo à prática de testar cada pequena unidade de código, geralmente funções ou métodos individuais, de forma completamente isolada de suas dependências externas. Essa granularidade é essencial porque permite identificar problemas exatamente onde eles ocorrem, sem a interferência de outros componentes do sistema. Por exemplo, ao testar uma função que calcula descontos em um sistema de e-commerce, não queremos que o teste falhe porque o banco de dados está fora do ar ou porque a API de pagamento está lenta. O teste unitário isola essa função específica usando mocks e stubs, garantindo que estamos avaliando apenas a lógica de cálculo em si. Essa abordagem traz benefícios práticos imediatos no dia a dia do desenvolvedor, como feedback rápido durante o desenvolvimento, facilidade para refatorar código com confiança e documentação viva que demonstra como cada parte do sistema deve se comportar.
+
+A escolha de ferramentas como Mocha, Chai e Sinon para TypeScript não é acidental, mas reflete necessidades reais do mercado de trabalho atual. O Mocha fornece a estrutura básica para organizar e executar testes de forma clara e expressiva, permitindo agrupar casos relacionados e preparar ambientes controlados antes de cada teste. O Chai complementa oferecendo asserções que tornam os testes mais legíveis e próximos da linguagem natural, como "espero que este valor seja verdadeiro" ou "espero que esta lista contenha três elementos". Já o Sinon resolve um dos maiores desafios dos testes unitários, que é lidar com dependências externas, criando substitutos controlados para APIs, bancos de dados e outros serviços. No contexto profissional, essa combinação permite que equipes de desenvolvimento mantenham bases de código complexas com milhares de linhas, onde cada alteração pode ser validada em segundos através de centenas ou milhares de testes unitários automatizados. A granularidade desses testes significa que quando algo quebra, você sabe imediatamente qual função específica causou o problema, economizando horas de depuração manual e permitindo entregas mais rápidas e confiáveis.
 
 - [Guia de Referência: Testes Unitários - Aplicação no Nível Mais Granular](./5__unit_tests.md)
 
 ## 6. Testes de Integração - Aplicação no nível intermediário
 
-2 parágrafos introdutórios
+Testes de integração constituem uma camada essencial na estratégia de qualidade de software, ocupando o espaço intermediário entre os testes unitários, que verificam componentes isolados, e os testes end-to-end, que validam fluxos completos da aplicação. Diferentemente dos testes unitários que substituem todas as dependências por mocks ou stubs, os testes de integração permitem que componentes reais trabalhem juntos, validando se a comunicação entre eles ocorre conforme o esperado. No contexto do desenvolvimento moderno com TypeScript, isso significa testar se um serviço consegue realmente persistir dados no banco, se uma API externa retorna as informações no formato correto, ou se múltiplos módulos orquestrados por um controlador produzem o resultado desejado. A importância desses testes aumenta proporcionalmente à complexidade da aplicação, pois muitos bugs surgem não de falhas em componentes individuais, mas dos mal-entendidos na interface entre eles, como incompatibilidades de contrato, erros de serialização ou problemas de sincronização.
+
+No nível intermediário de conhecimento, compreender testes de integração envolve dominar não apenas a mecânica de escrevê-los usando frameworks como Mocha, Chai e Sinon, mas também desenvolver o discernimento sobre quando e como aplicá-los efetivamente. Um desenvolvedor intermediário precisa equilibrar o custo de execução desses testes, que são naturalmente mais lentos e complexos que testes unitários, com o valor que eles proporcionam ao capturar bugs que testes isolados não conseguiriam identificar. Isso requer decisões conscientes sobre quais integrações merecem cobertura automatizada, como configurar ambientes de teste que sejam ao mesmo tempo realistas e controláveis, e como estruturar os testes para que permaneçam manuteníveis conforme a aplicação evolui. Ferramentas como bancos de dados em memória, containers Docker e stubs de serviços externos tornam-se aliadas valiosas nesse processo, permitindo simular cenários complexos sem comprometer a velocidade de execução ou a confiabilidade dos resultados.
 
 - [Guia de Referência: Testes de Integração - Aplicação no nível intermediário](./6__integration_tests.md)
 
 ## 7. Testes E2E - Aplicação no nível mais amplo
 
-2 parágrafos introdutórios
+Os testes End-to-End representam o ápice da pirâmide de testes em desenvolvimento de software, funcionando como a última linha de defesa antes que uma aplicação chegue aos usuários finais. Diferentemente dos testes unitários que verificam funções isoladas ou dos testes de integração que examinam a comunicação entre componentes específicos, os testes E2E simulam jornadas completas de usuários reais, validando que todo o ecossistema da aplicação funcione harmoniosamente. Imagine que você está desenvolvendo um sistema bancário: enquanto um teste unitário verificaria se o cálculo de juros está correto e um teste de integração confirmaria que o serviço de pagamento se comunica adequadamente com o banco de dados, o teste E2E simularia um cliente acessando sua conta, transferindo dinheiro para outro cliente e verificando se o saldo foi atualizado corretamente em ambas as contas. Essa abordagem holística captura problemas que testes mais granulares simplesmente não conseguem detectar, como falhas na orquestração entre microsserviços, problemas de renderização no frontend que impedem interações, ou inconsistências de dados que só aparecem quando múltiplos sistemas trabalham juntos.
+
+O valor dos testes E2E está diretamente relacionado à confiança que eles proporcionam, mas essa confiança vem acompanhada de desafios significativos que todo desenvolvedor precisa entender e gerenciar adequadamente. Esses testes são naturalmente mais lentos porque precisam inicializar navegadores reais, carregar aplicações completas, aguardar respostas de APIs e banco de dados, e simular interações humanas que incluem tempos de espera realistas. No mercado de trabalho atual, onde pipelines de CI/CD executam dezenas ou centenas de builds diários, uma suíte mal otimizada de testes E2E pode se tornar um gargalo crítico, levando equipes a ignorarem ou desabilitarem esses testes, o que elimina justamente a camada de proteção que eles deveriam fornecer. Por isso, a estratégia moderna envolve selecionar criteriosamente os fluxos mais críticos para o negócio e implementá-los com técnicas avançadas como paralelização de execução, uso de dados de teste isolados, implementação do padrão Page Object Model para facilitar manutenção, e criação de mecanismos inteligentes de retry para lidar com a natureza assíncrona das aplicações web modernas, garantindo que os testes sejam tanto confiáveis quanto sustentáveis a longo prazo.
 
 - [Guia de Referência: Testes E2E - Aplicação no nível mais amplo](./7__e2e_tests.md)
 
@@ -106,7 +112,9 @@ Alcançar e manter alta cobertura de testes requer uma abordagem estratégica qu
 - [Controllers](./ddd/g__ddd_controllers.md)
 - [Adapters (Adaptadores)](./ddd/h__ddd_adapters.md)
 - [Interfaces](./ddd/i__ddd_interfaces.md)
-- [Domain (Core)](./ddd/j__ddd_domain_core.md)
+- [Domain Core](./ddd/j__ddd_domain_core.md)
+- [Domain Events](./ddd/k__ddd_domain_events.md)
+- [Domain Factories](./ddd/l__ddd_domain-factories.md)
 
 ## 11. Design Patterns em DDD - Padrões e suas estratégias de teste
 
