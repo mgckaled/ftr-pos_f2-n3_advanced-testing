@@ -99,22 +99,20 @@ Alcançar e manter alta cobertura de testes requer uma abordagem estratégica qu
 
 ## 10. Testes para Arquitetura DDD - Contexto arquitetural específico
 
-3 parágrafos introdutórios
-
 **Guia de Referência**:
 
-- [Entities](./ddd/a__ddd_entities.md)
-- [Value Objects](./ddd/b__ddd_value_objects.md)
-- [Agregados (Aggregates)](./ddd/c__ddd_aggregates.md)
-- [Repositories](./ddd/d__ddd_repositories.md)
-- [Use Cases](./ddd/e__ddd_use_cases.md)
-- [Services (Domain Services)](./ddd/f__ddd_domain_services.md)
-- [Controllers](./ddd/g__ddd_controllers.md)
-- [Adapters (Adaptadores)](./ddd/h__ddd_adapters.md)
-- [Interfaces](./ddd/i__ddd_interfaces.md)
-- [Domain Core](./ddd/j__ddd_domain_core.md)
-- [Domain Events](./ddd/k__ddd_domain_events.md)
-- [Domain Factories](./ddd/l__ddd_domain-factories.md)
+- [Entities - Objetos com identidade única persistente ao longo do tempo e mudanças de estado](./ddd/a__ddd_entities.md)
+- [Value Objects - Objetos imutáveis definidos exclusivamente por seus atributos, sem identidade própria](./ddd/b__ddd_value_objects.md)
+- [Aggregates - Clusters de entidades e objetos de valor tratados como unidade de consistência transacional](./ddd/c__ddd_aggregates.md)
+- [Repositories - Abstrações que encapsulam lógica de persistência e recuperação de agregados do banco de dados](./ddd/d__ddd_repositories.md)
+- [Use Cases - Orquestradores de lógica de aplicação que coordenam fluxos de negócio entre múltiplos componentes](./ddd/e__ddd_use_cases.md)
+- [Domain Services - Operações de domínio que não pertencem naturalmente a nenhuma entidade ou objeto de valor](./ddd/f__ddd_domain_services.md)
+- [Controllers - Camada de apresentação responsável por receber requisições e delegar processamento aos casos de uso](./ddd/g__ddd_controllers.md)
+- [Adapters - Componentes que traduzem interfaces externas para o formato esperado pelo domínio e vice-versa](./ddd/h__ddd_adapters.md)
+- [Interfaces - Contratos que definem comportamentos esperados sem expor detalhes de implementação](./ddd/i__ddd_interfaces.md)
+- [Domain Core - Núcleo do domínio contendo regras de negócio críticas isoladas de frameworks e infraestrutura](./ddd/j__ddd_domain_core.md)
+- [Domain Events - Notificações de mudanças significativas no domínio que permitem comunicação assíncrona entre agregados](./ddd/k__ddd_domain_events.md)
+- [Domain Factories - Padrões de criação que encapsulam lógica complexa de construção de agregados e entidades](./ddd/l__ddd_domain-factories.md)
 
 ## 11. Design Patterns em DDD - Padrões e suas estratégias de teste
 
@@ -128,12 +126,16 @@ A escolha dos tipos de teste adequados para cada padrão DDD impacta diretamente
 
 ## 12. CI/CD com Github Actions - Automação de Testes do Pipeline
 
-2 parágrafos introdutórios
+Imagine que você está desenvolvendo uma aplicação de e-commerce que processa centenas de transações por dia. Cada vez que um desenvolvedor da sua equipe adiciona uma nova funcionalidade ou corrige um bug, existe o risco de introduzir problemas que podem afetar o carrinho de compras, o sistema de pagamentos ou o cálculo de frete. Tradicionalmente, você dependeria de testes manuais antes de cada deploy, um processo demorado e sujeito a falhas humanas. É aqui que entra o conceito de CI/CD com GitHub Actions, uma abordagem que transforma completamente essa dinâmica. CI/CD é a combinação de duas práticas complementares: Integração Contínua, onde o código de diferentes desenvolvedores é constantemente mesclado e testado automaticamente, e Entrega Contínua, que garante que seu código está sempre em um estado pronto para ir para produção. O GitHub Actions funciona como o maestro dessa orquestra, executando automaticamente uma série de verificações cada vez que alguém envia código novo para o repositório. Pense nisso como ter um assistente incansável que, a cada mudança no código, verifica se tudo continua funcionando perfeitamente, rodando testes, analisando a qualidade do código e até mesmo fazendo o deploy automaticamente quando tudo está correto.
 
-- [Guia de Referência]
+A automação de testes dentro desse pipeline é o que realmente diferencia um projeto profissional de um projeto amador. Quando falamos de testes automatizados no contexto de CI/CD, estamos nos referindo a um sistema em camadas que valida seu código em múltiplos níveis: desde testes unitários que verificam funções individuais, passando por testes de integração que garantem que diferentes partes do sistema se comunicam corretamente, até testes end-to-end que simulam a jornada completa de um usuário. O GitHub Actions permite que você configure essas verificações em arquivos YAML, que são como receitas descrevendo exatamente o que deve acontecer quando determinados eventos ocorrem no seu repositório. Por exemplo, você pode configurar que a cada pull request aberto, seu pipeline execute automaticamente todos os testes, verifique se o código segue os padrões estabelecidos pela equipe, analise a cobertura de testes e até mesmo identifique vulnerabilidades de segurança, tudo isso antes que qualquer revisor humano precise olhar o código. Essa abordagem não apenas reduz drasticamente a possibilidade de bugs chegarem à produção, como também acelera o ciclo de desenvolvimento, permitindo que equipes façam deploys múltiplas vezes ao dia com confiança, sabendo que cada mudança passou por uma bateria rigorosa de verificações automatizadas.
+
+- [Guia de Referência: CI/CD com Github Actions - Automação de Testes do Pipeline](./12__cicd_pipeline.md)
 
 ## 13. Testcontainers - Infraestrutura para testes de integração
 
-1 parágrafos introdutórios
+Testcontainers é uma biblioteca que revoluciona a forma como desenvolvemos testes de integração ao fornecer instâncias descartáveis e isoladas de serviços de infraestrutura através de contêineres Docker. Em vez de utilizar mocks ou ambientes compartilhados que podem gerar resultados inconsistentes, o Testcontainers permite testar contra dependências reais como PostgreSQL, Redis, MongoDB e RabbitMQ, executando cada teste em um ambiente limpo e controlado. A biblioteca gerencia automaticamente o ciclo de vida dos contêineres, iniciando-os antes da execução dos testes e destruindo-os ao final, garantindo isolamento completo e eliminando efeitos colaterais entre diferentes suítes de teste.
 
-- [Guia de Referência]
+A integração com TypeScript e frameworks de teste como Mocha oferece uma experiência de desenvolvimento robusta e profissional, permitindo que equipes escrevam testes de integração que realmente validam o comportamento da aplicação em cenários próximos ao ambiente de produção. Com suporte nativo para wait strategies, configuração de recursos, network isolation e múltiplos contêineres simultâneos, o Testcontainers se tornou uma ferramenta essencial no ecossistema moderno de desenvolvimento, especialmente em arquiteturas de microserviços onde a correta integração entre componentes é crítica. A biblioteca reduz significativamente o tempo de identificação de bugs de integração, aumenta a confiança nas entregas e elimina o tradicional problema de testes que funcionam localmente mas falham em outros ambientes.
+
+- [Guia de Referência: Testcontainers - Infraestrutura para testes de integração](./13__testcontainers.md)
