@@ -1,8 +1,8 @@
-# Testes em Funções Assíncronas com Node.js
+# Testes Assíncronos - Caso especial transversal
 
 ## Índice
 
-- [Testes em Funções Assíncronas com Node.js](#testes-em-funções-assíncronas-com-nodejs)
+- [Testes Assíncronos - Caso especial transversal](#testes-assíncronos---caso-especial-transversal)
   - [Índice](#índice)
   - [Introdução](#introdução)
     - [Conceitos Fundamentais](#conceitos-fundamentais)
