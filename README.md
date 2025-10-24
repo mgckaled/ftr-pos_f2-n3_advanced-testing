@@ -18,9 +18,9 @@ Repositório pessoal de registro, referência e suporte para fins de aprendizado
 >[!NOTE]
 > [Questionário Avaliativo](./.github/docs/assessments/q.md)
 >
-> [Glossário / Terminologia](./.github/docs/content/0__terminology.md)
->
 > [Guia de Estudos](./.github/docs/content/_index.md)
+>
+> [Projeto: Sistema completo de gerenciamento de pacientes](./src/p1/)
 
 ---
 

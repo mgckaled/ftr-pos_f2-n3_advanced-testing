@@ -1,7 +1,7 @@
 {
   "all": true,
   "reporter": ["text", "html", "lcov"],
-  "exclude": ["tests/**", "dist/**", "**/*.test.ts", "node_modules/**"],
+  "exclude": ["tests/**", "dist/**", "**/*.test.ts", "node_modules/**", "src/**/index.ts"],
   "include": ["src/**/*.ts"],
   "check-coverage": false,
   "report-dir": "./coverage"
