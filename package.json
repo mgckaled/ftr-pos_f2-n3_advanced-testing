@@ -21,16 +21,16 @@
 		"clean": "rm -rf dist",
 		"prebuild": "npm run clean",
 		"build": "tsc",
-
-		"test": "NODE_OPTIONS='--loader ts-node/esm' mocha",
-		"coverage": "c8 npm run test",
-		"test:p1": "NODE_OPTIONS='--loader ts-node/esm' mocha 'tests/p1/**/*.test.ts'",
-		"test:p2": "NODE_OPTIONS='--loader ts-node/esm' mocha 'tests/p2/**/*.test.ts'",
-		"test:p3": "NODE_OPTIONS='--loader ts-node/esm' mocha 'tests/p3/**/*.test.ts'",
-		"coverage:p1": "c8 npm run test:p1",
-		"coverage:p2": "c8 npm run test:p2",
-		"coverage:p3": "c8 npm run test:p3",
-
+	  "test": "cross-env NODE_OPTIONS=--loader=ts-node/esm mocha",
+    "coverage": "c8 npm run test",
+    
+    "test:p1": "cross-env NODE_OPTIONS=--loader=ts-node/esm mocha --no-config --extension ts --timeout 5000 --recursive tests/p1",
+    "test:p2": "cross-env NODE_OPTIONS=--loader=ts-node/esm mocha --no-config --extension ts --timeout 5000 --recursive tests/p2",
+    "test:p3": "cross-env NODE_OPTIONS=--loader=ts-node/esm mocha --no-config --extension ts --timeout 5000 --recursive tests/p3",
+    
+    "coverage:p1": "c8 --include=src/p1/**/*.ts --report-dir=./coverage/p1 npm run test:p1",
+    "coverage:p2": "c8 --include=src/p2/**/*.ts --report-dir=./coverage/p2 npm run test:p2",
+    "coverage:p3": "c8 --include=src/p3/**/*.ts --report-dir=./coverage/p3 npm run test:p3",
 		"lint": "biome lint .",
 		"lint:fix": "biome lint --write .",
 		"format": "biome format .",
@@ -39,7 +39,6 @@
 		"check:fix": "biome check --write ."
 	},
 	"packageManager": "pnpm@10.19.0",
-
 	"devDependencies": {
 		"@biomejs/biome": "^2.3.0",
 		"@types/chai": "^5.2.3",
@@ -49,6 +48,7 @@
 		"@types/sinon": "^17.0.4",
 		"c8": "^10.1.3",
 		"chai": "^6.2.0",
+		"cross-env": "^10.1.0",
 		"mocha": "^11.7.4",
 		"sinon": "^21.0.0",
 		"ts-node": "^10.9.2",

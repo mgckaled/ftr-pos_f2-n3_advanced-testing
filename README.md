@@ -21,6 +21,8 @@ Repositório pessoal de registro, referência e suporte para fins de aprendizado
 > [Guia de Estudos](./.github/docs/content/_index.md)
 >
 > [Projeto: Sistema completo de gerenciamento de pacientes](./src/p1/)
+>
+> [Projeto: Aplicação de Testes em Design Patterns](./src/p2/)
 
 ---
 
