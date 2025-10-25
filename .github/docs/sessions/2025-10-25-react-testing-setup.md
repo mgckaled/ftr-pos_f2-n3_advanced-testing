@@ -294,21 +294,159 @@ Using Tailwind CSS v4 new approach:
 
 ---
 
+### 4. AppointmentForm Component (Sessão Continuada)
+
+#### 4.1 Implementação do Formulário
+**Arquivo:** `src/components/AppointmentForm.tsx`
+
+**Funcionalidades:**
+- Formulário completo de agendamento de consultas
+- Integração com componentes Button, Input e Modal
+- Validação robusta de todos os campos
+- Estados de loading durante submissão
+- Modal de confirmação após sucesso
+- Alinhado com o domínio do projeto `src/p1` (Patient entity)
+
+**Campos implementados:**
+- Nome do Paciente (mínimo 3 caracteres)
+- Email (validação com regex)
+- Telefone (formato brasileiro: (11) 98765-4321)
+- Data da Consulta (não permite datas passadas)
+- Horário (apenas entre 08:00 e 18:00)
+- Tipo de Consulta (select com 4 opções)
+- Observações (campo opcional, textarea)
+
+**Validações:**
+- Nome: obrigatório, mínimo 3 caracteres
+- Email: obrigatório, formato válido
+- Telefone: obrigatório, formato brasileiro
+- Data: obrigatória, não pode ser passado
+- Horário: obrigatório, horário comercial (08:00-18:00)
+- Tipo: obrigatório (checkup, followup, emergency, specialist)
+
+**Features:**
+- Clear errors on typing (UX improvement)
+- Loading state durante async submission
+- Reset form após sucesso
+- Botão "Limpar" para resetar formulário
+- Modal de confirmação com resumo dos dados
+
+#### 4.2 Testes do AppointmentForm (37 testes)
+**Arquivo:** `src/components/AppointmentForm.test.tsx`
+
+**Categorias de teste:**
+1. **Rendering (4 testes)**
+   - Renderização de todos os campos
+   - Botões submit e clear
+   - Initial data
+   - Custom className
+
+2. **Validation - Patient Name (3 testes)**
+   - Campo vazio
+   - Nome muito curto (< 3 chars)
+   - Clear error on typing
+
+3. **Validation - Email (3 testes)**
+   - Campo vazio
+   - Formato inválido
+   - Formato válido
+
+4. **Validation - Phone (3 testes)**
+   - Campo vazio
+   - Formato inválido
+   - Formatos válidos
+
+5. **Validation - Date (2 testes)**
+   - Campo vazio
+   - Data no passado
+
+6. **Validation - Time (5 testes)**
+   - Campo vazio
+   - Antes das 08:00
+   - Depois das 18:00
+   - Aceita 08:00
+   - Aceita 17:59
+
+7. **Validation - Appointment Type (2 testes)**
+   - Tipo não selecionado
+   - Renderização de todas as opções
+
+8. **Form Submission (5 testes)**
+   - Submit com dados válidos
+   - Não submete quando inválido
+   - Loading state durante submissão
+   - Modal de confirmação
+   - Reset após sucesso
+
+9. **Clear Button (2 testes)**
+   - Limpa todos os campos
+   - Limpa erros de validação
+
+10. **Confirmation Modal (1 teste)**
+    - Fechar modal com botão X
+
+11. **Accessibility (5 testes)**
+    - Atributo novalidate no form
+    - Campos required
+    - aria-invalid nos erros
+    - aria-describedby linking
+    - role=alert nas mensagens
+
+12. **Notes Field (2 testes)**
+    - Submissão sem notes (opcional)
+    - Submissão com notes
+
+**Problema resolvido durante testes:**
+- Teste de loading state falhava porque o texto "Agendando..." aparecia/desaparecia muito rápido
+- Solução: Usar promise controlada manualmente e verificar estado disabled dos botões ao invés do texto
+
+#### 4.3 Atualização do App.tsx
+**Arquivo:** `src/App.tsx`
+
+Criada landing page simples para clínica médica:
+- Header com título e subtítulo
+- AppointmentForm centralizado
+- Footer com horário de funcionamento
+- Background gradient (Tailwind CSS)
+- Handler assíncrono simulando API call
+
+---
+
+## Estatísticas Finais Atualizadas
+
+### Componentes Criados
+- **Button**: 15 testes
+- **Input**: 27 testes
+- **Card**: 22 testes
+- **Modal**: 19 testes
+- **Accordion**: 20 testes
+- **AppointmentForm**: 37 testes ✨ NOVO
+- **TOTAL**: 6 componentes, 140 testes ✅
+
+### Cobertura de Testes
+- ✅ **140/140 testes passando**
+- Tempo de execução: ~29s
+- 6 arquivos de teste
+- Cobertura completa de funcionalidades
+
+---
+
 ## Próximos Passos Planejados
 
-### Pendente
-1. **AppointmentForm Component**
+### Concluído ✅
+1. **AppointmentForm Component** ✅
    - Formulário de agendamento usando Input e Button
    - Validação de campos
-   - Seleção de especialidade e data
+   - Seleção de tipo de consulta e data/hora
    - Testes de validação e submit
+   - Modal de confirmação
 
-2. **Landing Page Completa**
-   - Hero section
+### Pendente
+1. **Landing Page Completa**
+   - Hero section expandida
    - Grid de especialidades usando Cards
    - FAQ usando Accordion
-   - Formulário de agendamento
-   - Modal de confirmação
+   - Integração com backend (API real)
 
 ---
 
@@ -325,6 +463,8 @@ Using Tailwind CSS v4 new approach:
 1. **React 19 imports**: Usar `ComponentProps` ao invés de tipos específicos
 2. **Testes de teclado**: `userEvent.keyboard` nem sempre funciona como esperado
 3. **Seletores em testes**: Usar `getAllByRole` quando há múltiplos elementos
+4. **Testes de loading state**: Quando o estado muda muito rápido, usar promise controlada manualmente com `let resolve; new Promise(r => resolve = r)` e verificar estados disabled ao invés de textos transitórios
+5. **Form role em testes**: Usar `container.querySelector("form")` ao invés de `getByRole("form")` que pode não funcionar sem accessible name
 
 ### Decisões de Arquitetura
 1. Componentes em `src/components/` (flat structure)
