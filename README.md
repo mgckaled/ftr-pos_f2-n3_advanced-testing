@@ -23,6 +23,8 @@ Repositório pessoal de registro, referência e suporte para fins de aprendizado
 > [Projeto 1: Sistema completo de gerenciamento de pacientes](./src/p1/)
 >
 > [Projeto 2: Aplicação de Testes em Design Patterns](./src/p2/)
+>
+> [Projeto 3(web): React Testing - Projeto de Referência](./web/)
 
 ---
 
