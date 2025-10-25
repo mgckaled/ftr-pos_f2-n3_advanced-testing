@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { useEffect } from 'react'
+import type { ReactNode } from "react"
+import { useEffect } from "react"
 
 export interface ModalProps {
   isOpen: boolean
@@ -12,24 +12,24 @@ export interface ModalProps {
 export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) {
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && isOpen) {
+      if (event.key === "Escape" && isOpen) {
         onClose()
       }
     }
 
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
+    document.addEventListener("keydown", handleEscape)
+    return () => document.removeEventListener("keydown", handleEscape)
   }, [isOpen, onClose])
 
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden'
+      document.body.style.overflow = "hidden"
     } else {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = "unset"
     }
 
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = "unset"
     }
   }, [isOpen])
 
@@ -56,6 +56,7 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
               {title}
             </h2>
             <button
+              type="button"
               onClick={onClose}
               className="text-gray-400 hover:text-gray-600 transition-colors"
               aria-label="Close modal"
@@ -68,7 +69,9 @@ export function Modal({ isOpen, onClose, title, children, footer }: ModalProps) 
                 strokeWidth="2"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-label="Close icon"
               >
+                <title>Close icon</title>
                 <path d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>

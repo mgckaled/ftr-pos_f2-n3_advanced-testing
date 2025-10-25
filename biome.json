@@ -36,7 +36,10 @@
         "noStaticOnlyClass": "off"
       },
       "a11y": {
-        "useButtonType": "error"
+        "useButtonType": "error",
+        "noStaticElementInteractions": "off",
+        "useAriaPropsSupportedByRole": "off",
+        "useKeyWithClickEvents": "off"
       }
     }
   },

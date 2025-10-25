@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
-import { useState } from 'react'
+import type { ReactNode } from "react"
+import { useState } from "react"
 
 export interface AccordionItemProps {
   title: string
@@ -12,13 +12,17 @@ export interface AccordionProps {
   defaultOpenIndexes?: number[]
 }
 
-export function Accordion({ items, allowMultiple = false, defaultOpenIndexes = [] }: AccordionProps) {
+export function Accordion({
+  items,
+  allowMultiple = false,
+  defaultOpenIndexes = [],
+}: AccordionProps) {
   const [openIndexes, setOpenIndexes] = useState<number[]>(defaultOpenIndexes)
 
   const toggleItem = (index: number) => {
     if (allowMultiple) {
       setOpenIndexes((prev) =>
-        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
+        prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
       )
     } else {
       setOpenIndexes((prev) => (prev.includes(index) ? [] : [index]))
@@ -26,7 +30,7 @@ export function Accordion({ items, allowMultiple = false, defaultOpenIndexes = [
   }
 
   const handleKeyDown = (event: React.KeyboardEvent, index: number) => {
-    if (event.key === 'Enter' || event.key === ' ') {
+    if (event.key === "Enter" || event.key === " ") {
       event.preventDefault()
       toggleItem(index)
     }
@@ -36,10 +40,12 @@ export function Accordion({ items, allowMultiple = false, defaultOpenIndexes = [
     <div className="w-full space-y-2">
       {items.map((item, index) => {
         const isOpen = openIndexes.includes(index)
+        const itemKey = `accordion-item-${item.title}-${index}`
 
         return (
-          <div key={index} className="border border-gray-200 rounded-lg overflow-hidden">
+          <div key={itemKey} className="border border-gray-200 rounded-lg overflow-hidden">
             <button
+              type="button"
               className="w-full px-4 py-3 flex justify-between items-center bg-gray-50 hover:bg-gray-100 transition-colors text-left"
               onClick={() => toggleItem(index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
@@ -49,7 +55,7 @@ export function Accordion({ items, allowMultiple = false, defaultOpenIndexes = [
               <span className="font-medium text-gray-900">{item.title}</span>
               <svg
                 className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
-                  isOpen ? 'rotate-180' : ''
+                  isOpen ? "rotate-180" : ""
                 }`}
                 fill="none"
                 strokeLinecap="round"

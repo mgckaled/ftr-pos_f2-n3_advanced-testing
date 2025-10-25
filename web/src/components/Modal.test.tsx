@@ -1,238 +1,243 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { describe, expect, it, vi } from 'vitest'
-import { Modal } from './Modal'
+import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
+import { describe, expect, it, vi } from "vitest"
+import { Modal } from "./Modal"
 
-describe('Modal', () => {
-  describe('Rendering', () => {
-    it('should render modal when isOpen is true', () => {
+describe("Modal", () => {
+  describe("Rendering", () => {
+    it("should render modal when isOpen is true", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Test Modal">
           Modal content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByRole('dialog')).toBeInTheDocument()
+      expect(screen.getByRole("dialog")).toBeInTheDocument()
     })
 
-    it('should not render modal when isOpen is false', () => {
+    it("should not render modal when isOpen is false", () => {
       render(
         <Modal isOpen={false} onClose={vi.fn()} title="Test Modal">
           Modal content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
     })
 
-    it('should render modal title', () => {
+    it("should render modal title", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Confirm Action">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByText('Confirm Action')).toBeInTheDocument()
+      expect(screen.getByText("Confirm Action")).toBeInTheDocument()
     })
 
-    it('should render modal children', () => {
+    it("should render modal children", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           <p>This is the modal content</p>
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByText('This is the modal content')).toBeInTheDocument()
+      expect(screen.getByText("This is the modal content")).toBeInTheDocument()
     })
 
-    it('should render footer when provided', () => {
+    it("should render footer when provided", () => {
       render(
-        <Modal isOpen={true} onClose={vi.fn()} title="Modal" footer={<button>OK</button>}>
+        <Modal
+          isOpen={true}
+          onClose={vi.fn()}
+          title="Modal"
+          footer={<button type="button">OK</button>}
+        >
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByRole('button', { name: 'OK' })).toBeInTheDocument()
+      expect(screen.getByRole("button", { name: "OK" })).toBeInTheDocument()
     })
 
-    it('should not render footer when not provided', () => {
+    it("should not render footer when not provided", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
       // Only close button should exist
-      expect(screen.getAllByRole('button')).toHaveLength(1)
+      expect(screen.getAllByRole("button")).toHaveLength(1)
     })
   })
 
-  describe('Accessibility', () => {
-    it('should have role dialog', () => {
+  describe("Accessibility", () => {
+    it("should have role dialog", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByRole('dialog')).toHaveAttribute('role', 'dialog')
+      expect(screen.getByRole("dialog")).toHaveAttribute("role", "dialog")
     })
 
-    it('should have aria-modal attribute', () => {
+    it("should have aria-modal attribute", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByRole('dialog')).toHaveAttribute('aria-modal', 'true')
+      expect(screen.getByRole("dialog")).toHaveAttribute("aria-modal", "true")
     })
 
-    it('should have aria-labelledby pointing to title', () => {
+    it("should have aria-labelledby pointing to title", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByRole('dialog')).toHaveAttribute('aria-labelledby', 'modal-title')
-      expect(screen.getByText('Modal')).toHaveAttribute('id', 'modal-title')
+      expect(screen.getByRole("dialog")).toHaveAttribute("aria-labelledby", "modal-title")
+      expect(screen.getByText("Modal")).toHaveAttribute("id", "modal-title")
     })
 
-    it('should have close button with aria-label', () => {
+    it("should have close button with aria-label", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByLabelText('Close modal')).toBeInTheDocument()
+      expect(screen.getByLabelText("Close modal")).toBeInTheDocument()
     })
   })
 
-  describe('Close interactions', () => {
-    it('should call onClose when close button is clicked', async () => {
+  describe("Close interactions", () => {
+    it("should call onClose when close button is clicked", async () => {
       const handleClose = vi.fn()
       const user = userEvent.setup()
 
       render(
         <Modal isOpen={true} onClose={handleClose} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      await user.click(screen.getByLabelText('Close modal'))
+      await user.click(screen.getByLabelText("Close modal"))
 
       expect(handleClose).toHaveBeenCalledTimes(1)
     })
 
-    it('should call onClose when Escape key is pressed', async () => {
+    it("should call onClose when Escape key is pressed", async () => {
       const handleClose = vi.fn()
       const user = userEvent.setup()
 
       render(
         <Modal isOpen={true} onClose={handleClose} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      await user.keyboard('{Escape}')
+      await user.keyboard("{Escape}")
 
       expect(handleClose).toHaveBeenCalledTimes(1)
     })
 
-    it('should call onClose when backdrop is clicked', async () => {
+    it("should call onClose when backdrop is clicked", async () => {
       const handleClose = vi.fn()
       const user = userEvent.setup()
 
       render(
         <Modal isOpen={true} onClose={handleClose} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      await user.click(screen.getByRole('dialog'))
+      await user.click(screen.getByRole("dialog"))
 
       expect(handleClose).toHaveBeenCalledTimes(1)
     })
 
-    it('should not call onClose when modal content is clicked', async () => {
+    it("should not call onClose when modal content is clicked", async () => {
       const handleClose = vi.fn()
       const user = userEvent.setup()
 
       render(
         <Modal isOpen={true} onClose={handleClose} title="Modal">
           <div data-testid="modal-content">Content</div>
-        </Modal>,
+        </Modal>
       )
 
-      await user.click(screen.getByTestId('modal-content'))
+      await user.click(screen.getByTestId("modal-content"))
 
       expect(handleClose).not.toHaveBeenCalled()
     })
 
-    it('should not call onClose when Escape is pressed and modal is closed', async () => {
+    it("should not call onClose when Escape is pressed and modal is closed", async () => {
       const handleClose = vi.fn()
       const user = userEvent.setup()
 
       render(
         <Modal isOpen={false} onClose={handleClose} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      await user.keyboard('{Escape}')
+      await user.keyboard("{Escape}")
 
       expect(handleClose).not.toHaveBeenCalled()
     })
   })
 
-  describe('Body overflow', () => {
-    it('should set body overflow to hidden when modal is open', () => {
+  describe("Body overflow", () => {
+    it("should set body overflow to hidden when modal is open", () => {
       render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(document.body.style.overflow).toBe('hidden')
+      expect(document.body.style.overflow).toBe("hidden")
     })
 
-    it('should restore body overflow when modal is closed', () => {
+    it("should restore body overflow when modal is closed", () => {
       const { rerender } = render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(document.body.style.overflow).toBe('hidden')
+      expect(document.body.style.overflow).toBe("hidden")
 
       rerender(
         <Modal isOpen={false} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(document.body.style.overflow).toBe('unset')
+      expect(document.body.style.overflow).toBe("unset")
     })
 
-    it('should restore body overflow when component unmounts', () => {
+    it("should restore body overflow when component unmounts", () => {
       const { unmount } = render(
         <Modal isOpen={true} onClose={vi.fn()} title="Modal">
           Content
-        </Modal>,
+        </Modal>
       )
 
-      expect(document.body.style.overflow).toBe('hidden')
+      expect(document.body.style.overflow).toBe("hidden")
 
       unmount()
 
-      expect(document.body.style.overflow).toBe('unset')
+      expect(document.body.style.overflow).toBe("unset")
     })
   })
 
-  describe('Integration', () => {
-    it('should render complete modal with all features', async () => {
+  describe("Integration", () => {
+    it("should render complete modal with all features", async () => {
       const handleClose = vi.fn()
       const user = userEvent.setup()
 
@@ -243,21 +248,23 @@ describe('Modal', () => {
           title="Delete Account"
           footer={
             <>
-              <button onClick={handleClose}>Cancel</button>
-              <button>Confirm</button>
+              <button type="button" onClick={handleClose}>
+                Cancel
+              </button>
+              <button type="button">Confirm</button>
             </>
           }
         >
           <p>Are you sure you want to delete your account?</p>
-        </Modal>,
+        </Modal>
       )
 
-      expect(screen.getByText('Delete Account')).toBeInTheDocument()
-      expect(screen.getByText('Are you sure you want to delete your account?')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'Confirm' })).toBeInTheDocument()
+      expect(screen.getByText("Delete Account")).toBeInTheDocument()
+      expect(screen.getByText("Are you sure you want to delete your account?")).toBeInTheDocument()
+      expect(screen.getByRole("button", { name: "Cancel" })).toBeInTheDocument()
+      expect(screen.getByRole("button", { name: "Confirm" })).toBeInTheDocument()
 
-      await user.click(screen.getByRole('button', { name: 'Cancel' }))
+      await user.click(screen.getByRole("button", { name: "Cancel" }))
       expect(handleClose).toHaveBeenCalled()
     })
   })

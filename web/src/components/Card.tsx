@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode } from "react"
 
 export interface CardProps {
   title: string
@@ -8,13 +8,11 @@ export interface CardProps {
   className?: string
 }
 
-export function Card({ title, description, icon, onClick, className = '' }: CardProps) {
+export function Card({ title, description, icon, onClick, className = "" }: CardProps) {
   const isClickable = !!onClick
   const baseClasses =
-    'p-6 bg-white rounded-lg shadow-md border border-gray-200 transition-all duration-200'
-  const clickableClasses = isClickable
-    ? 'cursor-pointer hover:shadow-lg hover:border-blue-500'
-    : ''
+    "p-6 bg-white rounded-lg shadow-md border border-gray-200 transition-all duration-200"
+  const clickableClasses = isClickable ? "cursor-pointer hover:shadow-lg hover:border-blue-500" : ""
 
   const handleClick = () => {
     if (onClick) {
@@ -23,7 +21,7 @@ export function Card({ title, description, icon, onClick, className = '' }: Card
   }
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (onClick && (event.key === 'Enter' || event.key === ' ')) {
+    if (onClick && (event.key === "Enter" || event.key === " ")) {
       event.preventDefault()
       onClick()
     }
@@ -34,7 +32,7 @@ export function Card({ title, description, icon, onClick, className = '' }: Card
       className={`${baseClasses} ${clickableClasses} ${className}`}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-      role={isClickable ? 'button' : undefined}
+      role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
       aria-label={isClickable ? title : undefined}
     >

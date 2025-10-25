@@ -1,19 +1,19 @@
-import type { ComponentProps } from 'react'
+import type { ComponentProps } from "react"
 
-export interface InputProps extends ComponentProps<'input'> {
+export interface InputProps extends ComponentProps<"input"> {
   label?: string
   error?: string
   helperText?: string
 }
 
-export function Input({ label, error, helperText, id, className = '', ...props }: InputProps) {
-  const inputId = id || label?.toLowerCase().replace(/\s+/g, '-')
+export function Input({ label, error, helperText, id, className = "", ...props }: InputProps) {
+  const inputId = id || label?.toLowerCase().replace(/\s+/g, "-")
 
   const baseClasses =
-    'w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 transition-colors'
+    "w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 transition-colors"
   const errorClasses = error
-    ? 'border-red-500 focus:ring-red-500'
-    : 'border-gray-300 focus:ring-blue-500'
+    ? "border-red-500 focus:ring-red-500"
+    : "border-gray-300 focus:ring-blue-500"
 
   return (
     <div className="w-full">
