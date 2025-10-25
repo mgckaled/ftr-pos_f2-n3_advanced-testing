@@ -9,7 +9,7 @@
 
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!dist", "!coverage", "!**/*.js", "!**/*.json"]
+    "includes": ["**/*.ts", "**/*.tsx", "**/*.jsx", "!**/node_modules", "!**/dist", "!**/coverage"]
   },
   "formatter": {
     "enabled": true,
@@ -34,6 +34,9 @@
         "noForEach": "off",
         "noUselessConstructor": "off",
         "noStaticOnlyClass": "off"
+      },
+      "a11y": {
+        "useButtonType": "error"
       }
     }
   },
@@ -42,7 +45,8 @@
       "quoteStyle": "double",
       "trailingCommas": "es5",
       "semicolons": "asNeeded",
-      "arrowParentheses": "always"
+      "arrowParentheses": "always",
+      "jsxQuoteStyle": "double"
     }
   }
 }

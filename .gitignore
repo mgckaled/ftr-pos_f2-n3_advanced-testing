@@ -30,20 +30,24 @@ debug.log
 # Build e cobertura de testes
 # ======================
 dist/
+dist-ssr/
 build/
 coverage/
 .nyc_output/
 reports/
 .tmp/
 .cache/
+*.tsbuildinfo
 
 # ======================
 # Configurações locais
 # ======================
 .env
 .env.local
+.env.*.local
 .env.test
 .env.production
+*.local
 
 # ======================
 # Arquivos temporários
@@ -60,7 +64,11 @@ desktop.ini
 # ======================
 # Editor e IDEs
 # ======================
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea/
 *.code-workspace
 
@@ -82,3 +90,14 @@ mochawesome.json
 ehthumbs.db
 $RECYCLE.BIN/
 *.lnk
+
+# ======================
+# IMPORTANTE: NÃO IGNORE
+# ======================
+# Certifique-se de que estes arquivos SEJAM commitados:
+# - pnpm-lock.yaml (lockfile do pnpm)
+# - package.json
+# - tsconfig.json
+# - biome.json
+# - .mocharc.json
+# - .c8rc.json
